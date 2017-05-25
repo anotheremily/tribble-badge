@@ -13,16 +13,16 @@
 
 class Button {
 public:
-    Button(int);
+    Button(uint8_t);
     ~Button();
 
-    int poll();
+    uint8_t poll();
     bool isPressed();
 private:
-    int pin;
-    int lastButtonState;
-    int buttonState;
-    int lastDebounceTime;
+    uint8_t pin;
+    uint8_t lastButtonState;
+    uint8_t buttonState;
+    uint16_t lastDebounceTime;
 };
 
 class ButtonManager {
@@ -30,11 +30,11 @@ public:
     ButtonManager();
     ~ButtonManager();
 
-    int poll();
+    uint8_t poll();
 private:
     Button *buttonOne;
     Button *buttonTwo;
-    int lastState;
+    uint8_t lastState;
 };
 
 #endif

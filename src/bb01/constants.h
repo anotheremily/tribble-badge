@@ -21,7 +21,7 @@
 #define BUTTON_OFF 0
 #define BUTTON_ON 1
 
-#define DEBOUNCE_DELAY 100
+#define DEBOUNCE_DELAY 50
 
 // Lights
 #define LED_PIN 0

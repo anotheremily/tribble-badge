@@ -17,7 +17,7 @@ void setup() {
  */
 void loop() {
 
-    int buttonClicked;
+    uint8_t buttonClicked;
 
     // poll buttons to see if one or more is pressed
     buttonClicked = buttons->poll();

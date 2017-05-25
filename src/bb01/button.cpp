@@ -5,7 +5,7 @@
 
 #include "button.h"
 
-Button::Button(int pin) {
+Button::Button(uint8_t pin) {
     pinMode(pin, INPUT);
 
     this->pin = pin;
@@ -17,8 +17,8 @@ Button::Button(int pin) {
 Button::~Button() {
 }
 
-int Button::poll() {
-    int reading = digitalRead(this->pin);
+uint8_t Button::poll() {
+    uint8_t reading = digitalRead(this->pin);
 
     // check to see if you just pressed the button
     // (i.e. the input went from LOW to HIGH),  and you've waited
@@ -58,11 +58,11 @@ ButtonManager::ButtonManager() {
 ButtonManager::~ButtonManager() {
 }
 
-int ButtonManager::poll() {
+uint8_t ButtonManager::poll() {
     this->buttonOne->poll();
     this->buttonTwo->poll();
 
-    int newState = BUTTON_NONE;
+    uint8_t newState = BUTTON_NONE;
     if (this->buttonOne->isPressed() && this->buttonTwo->isPressed()) {
         newState = BUTTON_1_2;
     } else if (this->buttonOne->isPressed()) {
