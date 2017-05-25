@@ -6,7 +6,8 @@
 #ifndef LIGHT_H
 #define LIGHT_H
 
-#include "lib/neopixel/Adafruit_NeoPixel.h"
+#include "Arduino.h"
+#include "constants.h"
 
 class LightManager {
 public:
@@ -14,6 +15,7 @@ public:
     ~LightManager();
 
     void crossfade();
+    void blink(int);
 };
 
 #endif

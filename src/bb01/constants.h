@@ -6,7 +6,25 @@
 #ifndef CONSTANTS_H
 #define CONSTANTS_H
 
-const int LED_PIN = 0;
-const int CONTROL_PIN = 1;
+// Loop Constants
+#define LOOP_DELAY 100  // ms
+
+// Buttons
+#define BUTTON_NONE 0
+#define BUTTON_1 1
+#define BUTTON_2 2
+#define BUTTON_1_2 3
+
+#define BUTTON_1_PIN 2
+#define BUTTON_2_PIN 3
+
+#define BUTTON_OFF 0
+#define BUTTON_ON 1
+
+#define DEBOUNCE_DELAY 100
+
+// Lights
+#define LED_PIN 1
+#define BLINK_DELAY 250
 
 #endif
