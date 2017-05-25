@@ -1,18 +1,31 @@
-int lastVal = 0;
-int pin = 0;
+// #include <StandardCplusplus.h>
+// #include <MemoryFree.h>
+#include <Wire.h>
+
+#include "constants.h"
+#include "button.h"
+#include "light.h"
+
+ButtonManager *buttons;
+LightManager *lights;
 
 void setup() {
-  // put your setup code here, to run once:
-  Serial.begin(9600);
-  Serial.write("hello");
+    buttons = new ButtonManager();
+    lights = new LightManager();
 }
 
+/**
+ * Poll for button input
+ *     - Perform actions
+ * Update lights
+ */
 void loop() {
-  // put your main code here, to run repeatedly:
-  int val = analogRead(pin);
-  if (val != lastVal) {
-    Serial.println("Val change");
-    Serial.println(val);
-    lastVal = val;  
-  }
+
+    // poll buttons
+    buttons->poll();
+
+    // @TODO check for button clicks/releases
+
+    // continue current light crossfade
+    lights->crossfade();
 }
