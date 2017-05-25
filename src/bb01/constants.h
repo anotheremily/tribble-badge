@@ -24,7 +24,7 @@
 #define DEBOUNCE_DELAY 100
 
 // Lights
-#define LED_PIN 1
+#define LED_PIN 0
 #define BLINK_DELAY 250
 
 #endif
