@@ -25,7 +25,7 @@
 
 // Lights
 #define LED_PIN 0
-#define PIXELS 20
+#define PIXELS 14
 #define BRIGHTNESS 50
 
 #define CROSSFADE_AMOUNT 10

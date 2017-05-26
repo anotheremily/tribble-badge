@@ -101,7 +101,7 @@ const pattern patterns[] = {
 
 LightHandler::LightHandler() {
     // for some reason the jewel wants 20 pixels in the strip?
-    this->strip = Adafruit_NeoPixel(PIXELS, LED_PIN);
+    this->strip = Adafruit_NeoPixel(PIXELS, LED_PIN, NEO_RGBW + NEO_KHZ800);  // or NEO_GRBW
     this->strip.begin();
     this->strip.show();
     this->strip.setBrightness(BRIGHTNESS);
@@ -117,28 +117,25 @@ void LightHandler::setPattern(uint8_t pattern) {
 
 }
 
-// void LightHandler::blink(int times) {
-//     if (times < 1) {
-//         return;
-//     }
-//
-//         for (uint8_t p = strip.numPixels(); p > 0; p -= 1) {
-//             for (uint8_t i = 0; i < 255; i += 1) {
-//                 this->strip.setPixelColor(p - 1, i, i, i);
-//                 this->strip.show();
-//                 delay(1);
-//             }
-//         }
-//
-//
-//     delay(5000);
-//
-//     for (uint8_t i = 255; i > 0; i -= 1) {
-//         for (uint8_t p = 0; p < this->strip.numPixels(); p += 1) {
-//             this->strip.setPixelColor(p, i - 1, i - 1, i - 1);
-//         }
-//         this->strip.show();
-//         delay(1);
-//     }
-//
-// }
+void LightHandler::debug() {
+
+    for (uint8_t p = strip.numPixels(); p > 0; p -= 1) {
+        for (uint8_t i = 0; i < 255; i += 1) {
+            this->strip.setPixelColor(p - 1, i, i, i);
+        }
+        this->strip.show();
+        delay(1);
+    }
+
+
+    delay(5000);
+
+    for (uint8_t i = 255; i > 0; i -= 1) {
+        for (uint8_t p = 0; p < this->strip.numPixels(); p += 1) {
+            this->strip.setPixelColor(p, i - 1, i - 1, i - 1);
+        }
+        this->strip.show();
+        delay(1);
+    }
+
+}

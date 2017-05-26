@@ -36,6 +36,11 @@ public:
      * @param uint8_t pattern
      */
     void setPattern(uint8_t);
+
+    /**
+     * Debug leds
+     */
+    void debug();
 private:
     Adafruit_NeoPixel strip;
 };

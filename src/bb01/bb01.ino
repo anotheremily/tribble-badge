@@ -27,8 +27,10 @@ void loop() {
 
     switch (buttonClicked) {
         case BUTTON_1:
+            lights->debug();
             break;
         case BUTTON_2:
+            lights->debug();
             break;
         case BUTTON_1_2:
             break;
