@@ -35,6 +35,11 @@ const color pattern_trans[] = {
 
 
 // #define PATTERN_GENDERQUEER 3
+const color pattern_genderqueer = {
+	{201, 138, 255}
+    {255, 255, 255},
+    {80, 150, 85}
+}
 
 // #define PATTERN_NONBINARY   4
 
@@ -48,6 +53,11 @@ const color pattern_bisexual[] = {
 };
 
 // #define PATTERN_PANSEXUAL   7
+const color pattern_pansexual[] = {
+    {255, 0, 193},
+    {255, 244, 0},
+    {110, 186, 255}
+};
 
 // #define PATTERN_ASEXUAL     8
 
