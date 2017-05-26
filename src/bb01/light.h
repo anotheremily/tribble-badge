@@ -33,9 +33,17 @@ public:
 
     /**
      * Set pattern
-     * @param uint8_t pattern
+     * @return new mode
      */
-    void setPattern(uint8_t);
+    uint8_t stepPattern();
+
+    /**
+     * Set mode
+     * @return new mode
+     */
+    uint8_t stepMode();
+
+    // @TODO add getters?
 
     /**
      * Debug leds
@@ -43,6 +51,9 @@ public:
     void debug();
 private:
     Adafruit_NeoPixel strip;
+
+    uint8_t pattern;
+    uint8_t mode;
 };
 
 #endif

@@ -20,19 +20,20 @@ void setup() {
  */
 void loop() {
 
-    uint8_t buttonClicked;
-
     // poll buttons to see if one or more is pressed
-    buttonClicked = buttons->poll();
+    uint8_t buttonPressed = buttons->poll();
 
-    switch (buttonClicked) {
-        case BUTTON_1:
-            lights->debug();
+    switch (buttonPressed) {
+        case BUTTON_1:  // Button 1 press
+            // lights->debug();
+            lights->stepPattern();
             break;
         case BUTTON_2:
-            lights->debug();
+            // lights->debug();
+            lights->stepMode();
             break;
         case BUTTON_1_2:
+            lights->debug();
             break;
         case BUTTON_NONE:
         default:
@@ -40,6 +41,8 @@ void loop() {
     }
 
     // @TODO check for pairing
+    // pairing->check();
 
-    // @TODO update lights
+    // update lights
+    lights->step();
 }

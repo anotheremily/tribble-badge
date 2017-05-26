@@ -85,4 +85,6 @@
 #define MODE_VIS_1          6
 #define MODE_VIS_2          7
 
+#define ACTIVE_MODES 8
+
 #endif

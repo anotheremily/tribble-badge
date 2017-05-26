@@ -105,6 +105,9 @@ LightHandler::LightHandler() {
     this->strip.begin();
     this->strip.show();
     this->strip.setBrightness(BRIGHTNESS);
+
+    this->pattern = 0;
+    this->mode = 0;
 }
 
 LightHandler::~LightHandler() {
@@ -113,8 +116,23 @@ LightHandler::~LightHandler() {
 void LightHandler::step() {
 }
 
-void LightHandler::setPattern(uint8_t pattern) {
+uint8_t LightHandler::stepPattern() {
+    // @TODO check eeprom
+    this->pattern += 1;
+    if (this->pattern == ACTIVE_PATTERNS) {  // loop back around
+        this->pattern = 0;
+    }
+    return this->pattern;
 
+}
+
+uint8_t LightHandler::stepMode() {
+    // @TODO check eeprom
+    this->mode += 1;
+    if (this->mode == ACTIVE_MODES) {  // loop back around
+        this->mode = 0;
+    }
+    return this->mode;
 }
 
 void LightHandler::debug() {
