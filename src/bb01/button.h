@@ -25,10 +25,10 @@ private:
     uint16_t lastDebounceTime;
 };
 
-class ButtonManager {
+class ButtonHandler {
 public:
-    ButtonManager();
-    ~ButtonManager();
+    ButtonHandler();
+    ~ButtonHandler();
 
     uint8_t poll();
 private:

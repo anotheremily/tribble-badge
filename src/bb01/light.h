@@ -10,13 +10,27 @@
 #include "Adafruit_NeoPixel.h"
 #include "constants.h"
 
-class LightManager {
-public:
-    LightManager();
-    ~LightManager();
+typedef struct {
+    uint8_t red;
+    uint8_t green;
+    uint8_t blue;
+} color;
 
-    void crossfade();
-    void blink(int);
+class LightHandler {
+public:
+    LightHandler();
+    ~LightHandler();
+
+    /**
+     * Step through current pattern
+     */
+    void step();
+
+    /**
+     * Set pattern
+     * @param uint8_t pattern
+     */
+    void setPattern(uint8_t);
 private:
     Adafruit_NeoPixel strip;
 };

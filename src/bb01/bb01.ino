@@ -2,17 +2,20 @@
 #include "button.h"
 #include "light.h"
 
-ButtonManager *buttons;
-LightManager *lights;
+ButtonHandler *buttons;
+LightHandler *lights;
 
 void setup() {
-    buttons = new ButtonManager();
-    lights = new LightManager();
+    buttons = new ButtonHandler();
+    lights = new LightHandler();
 }
 
 /**
- * Poll for button input
- *     - Perform actions
+ * Main event loop.
+ *
+ * Poll for button input and respond accordingly
+ * Check for pairing
+ * @TODO microphone sample?
  * Update lights
  */
 void loop() {
@@ -22,15 +25,19 @@ void loop() {
     // poll buttons to see if one or more is pressed
     buttonClicked = buttons->poll();
 
-    // @TODO check for button clicks/releases
-    if (buttonClicked != BUTTON_NONE) {
-        lights->blink(1);
-        if (buttonClicked == BUTTON_1) {
-        } else if (buttonClicked == BUTTON_2) {
-        } else if (buttonClicked == BUTTON_1_2) {
-        }
+    switch (buttonClicked) {
+        case BUTTON_1:
+            break;
+        case BUTTON_2:
+            break;
+        case BUTTON_1_2:
+            break;
+        case BUTTON_NONE:
+        default:
+            break;
     }
 
-    // continue current light crossfade
-    // lights->crossfade();
+    // @TODO check for pairing
+
+    // @TODO update lights
 }

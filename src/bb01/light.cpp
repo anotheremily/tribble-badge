@@ -1,15 +1,64 @@
 /**
  * Light handling
  * Emily Young <emily@zavtralabs.com>
+ * Most colors adapted from:
+ *      http://www.color-hex.com/color-palettes/?keyword=pride
+ * Structure inspiration from QC12 Badge by George
  */
 
 #include "light.h"
 
-#define PIN      6
-#define N_LEDS 14
+// #define PATTERN_RGB         0
+const color pattern_rgb[] = {
+    {255, 0, 0},
+    {0, 255, 0},
+    {0, 0, 255}
+};
+
+// #define PATTERN_PRIDE       1
+const color pattern_pride[] = {
+    {255, 0, 0},
+    {253, 255, 0},
+    {60, 255, 0},
+    {0, 133, 255},
+    {140, 0, 219},
+};
+
+// #define PATTERN_TRANS       2
+const color pattern_trans[] = {
+    {91,206,250},
+    {245, 169, 184},
+    {255, 255, 255},
+    {91,206,250},
+    {245, 169, 184}
+};
 
 
-LightManager::LightManager() {
+// #define PATTERN_GENDERQUEER 3
+
+// #define PATTERN_NONBINARY   4
+
+// #define PATTERN_INTERSEX    5
+
+// #define PATTERN_BISEXUAL    6
+const color pattern_bisexual[] = {
+    {255, 57, 187},
+    {214, 0, 255},
+    {0, 4, 255}
+};
+
+// #define PATTERN_PANSEXUAL   7
+
+// #define PATTERN_ASEXUAL     8
+
+// #define PATTERN_ALLY        9
+
+// #define PATTERN_LEATHER     10
+
+// #define PATTERN_BEAR        11
+
+
+LightHandler::LightHandler() {
     // Parameter 1 = number of pixels in strip
     // Parameter 2 = pin number (most are valid)
     // Parameter 3 = pixel type flags, add together as needed:
@@ -23,34 +72,38 @@ LightManager::LightManager() {
     this->strip.setBrightness(50);
 }
 
-LightManager::~LightManager() {
+LightHandler::~LightHandler() {
 }
 
-void LightManager::crossfade() {
+void LightHandler::step() {
 }
 
-void LightManager::blink(int times) {
-    if (times < 1) {
-        return;
-    }
-
-        for (uint8_t p = strip.numPixels(); p > 0; p -= 1) {
-            for (uint8_t i = 0; i < 255; i += 1) {
-                this->strip.setPixelColor(p - 1, i, i, i);
-                this->strip.show();
-                delay(1);
-            }
-        }
-
-
-    delay(5000);
-
-    for (uint8_t i = 255; i > 0; i -= 1) {
-        for (uint8_t p = 0; p < this->strip.numPixels(); p += 1) {
-            this->strip.setPixelColor(p, i - 1, i - 1, i - 1);
-        }
-        this->strip.show();
-        delay(1);
-    }
+void LightHandler::setPattern(uint8_t pattern) {
 
 }
+
+// void LightHandler::blink(int times) {
+//     if (times < 1) {
+//         return;
+//     }
+//
+//         for (uint8_t p = strip.numPixels(); p > 0; p -= 1) {
+//             for (uint8_t i = 0; i < 255; i += 1) {
+//                 this->strip.setPixelColor(p - 1, i, i, i);
+//                 this->strip.show();
+//                 delay(1);
+//             }
+//         }
+//
+//
+//     delay(5000);
+//
+//     for (uint8_t i = 255; i > 0; i -= 1) {
+//         for (uint8_t p = 0; p < this->strip.numPixels(); p += 1) {
+//             this->strip.setPixelColor(p, i - 1, i - 1, i - 1);
+//         }
+//         this->strip.show();
+//         delay(1);
+//     }
+//
+// }

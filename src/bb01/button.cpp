@@ -49,16 +49,16 @@ bool Button::isPressed() {
     return this->buttonState == HIGH ? true : false;
 }
 
-ButtonManager::ButtonManager() {
+ButtonHandler::ButtonHandler() {
     this->buttonOne = new Button(BUTTON_1);
     this->buttonTwo = new Button(BUTTON_2);
     this->lastState = BUTTON_NONE;
 }
 
-ButtonManager::~ButtonManager() {
+ButtonHandler::~ButtonHandler() {
 }
 
-uint8_t ButtonManager::poll() {
+uint8_t ButtonHandler::poll() {
     this->buttonOne->poll();
     this->buttonTwo->poll();
 
