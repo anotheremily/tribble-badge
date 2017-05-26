@@ -25,6 +25,59 @@
 
 // Lights
 #define LED_PIN 0
-#define BLINK_DELAY 250
+#define CROSSFADE_AMOUNT 10
+
+#define CHANNEL_ON 255
+#define CHANNEL_OFF 0
+
+/**
+ * Patterns
+ * Pride
+ * RGB
+ * Trans
+ * Genderqueer
+ * Nonbinary
+ * Intersex
+ *
+ * TBD Patterns
+ * Bisexual
+ * Pansexual
+ * Asexual
+ * Ally
+ * Leather
+ * Bear
+ */
+#define PATTERN_RGB         0
+#define PATTERN_PRIDE       1
+#define PATTERN_TRANS       2
+#define PATTERN_GENDERQUEER 3
+#define PATTERN_NONBINARY   4
+#define PATTERN_INTERSEX    5
+#define PATTERN_BISEXUAL    6
+#define PATTERN_PANSEXUAL   7
+#define PATTERN_ASEXUAL     8
+#define PATTERN_ALLY        9
+#define PATTERN_LEATHER     10
+#define PATTERN_BEAR        11
+
+/**
+ * Modes:
+ * - Blink
+ * - Crossfade (All)
+ * - Crossfade (Horizontal/Across)
+ * - Crossfade (Vertical/Down)
+ * - Chase (Circles)
+ * - Sparks (Flashing Random Colors)
+ * - Visualizer 1 TBD
+ * - Visualizer 2 TBD
+ */
+#define MODE_BLINK          0
+#define MODE_CROSSFADE_ALL  1
+#define MODE_CROSSFADE_HORZ 2
+#define MODE_CROSSFADE_VERT 3
+#define MODE_CHASE          4
+#define MODE_SPARKS         5
+#define MODE_VIS_1          6
+#define MODE_VIS_2          7
 
 #endif
