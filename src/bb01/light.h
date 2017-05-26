@@ -7,6 +7,7 @@
 #define LIGHT_H
 
 #include "Arduino.h"
+#include "Adafruit_NeoPixel.h"
 #include "constants.h"
 
 class LightManager {
@@ -16,6 +17,8 @@ public:
 
     void crossfade();
     void blink(int);
+private:
+    Adafruit_NeoPixel strip;
 };
 
 #endif

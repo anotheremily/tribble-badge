@@ -3,3 +3,26 @@
 bb01.tar.gz
 schematics/bb01v01_bom.html
 schematics/bb01v01_bb.png
+
+# For PCBs designed using KiCad: http://www.kicad-pcb.org/
+# https://github.com/github/gitignore/blob/master/KiCad.gitignore
+
+# Temporary files
+schematics/bb01/*.000
+schematics/bb01/*.bak
+schematics/bb01/*.bck
+schematics/bb01/*.kicad_pcb-bak
+schematics/bb01/*~
+schematics/bb01/_autosave-*
+schematics/bb01/*.tmp
+
+# Netlist files (exported from Eeschema)
+schematics/bb01/*.net
+
+# Autorouter files (exported from Pcbnew)
+schematics/bb01/*.dsn
+schematics/bb01/*.ses
+
+# Exported BOM files
+schematics/bb01/*.xml
+schematics/bb01/*.csv

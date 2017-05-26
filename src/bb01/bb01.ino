@@ -24,12 +24,10 @@ void loop() {
 
     // @TODO check for button clicks/releases
     if (buttonClicked != BUTTON_NONE) {
+        lights->blink(1);
         if (buttonClicked == BUTTON_1) {
-            lights->blink(1);
         } else if (buttonClicked == BUTTON_2) {
-            lights->blink(2);
         } else if (buttonClicked == BUTTON_1_2) {
-            lights->blink(10);
         }
     }
 
