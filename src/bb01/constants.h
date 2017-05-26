@@ -25,6 +25,9 @@
 
 // Lights
 #define LED_PIN 0
+#define PIXELS 20
+#define BRIGHTNESS 50
+
 #define CROSSFADE_AMOUNT 10
 
 #define CHANNEL_ON 255
@@ -51,14 +54,16 @@
 #define PATTERN_PRIDE       1
 #define PATTERN_TRANS       2
 #define PATTERN_GENDERQUEER 3
-#define PATTERN_NONBINARY   4
-#define PATTERN_INTERSEX    5
-#define PATTERN_BISEXUAL    6
-#define PATTERN_PANSEXUAL   7
+#define PATTERN_BISEXUAL    4
+#define PATTERN_PANSEXUAL   5
+#define PATTERN_NONBINARY   6
+#define PATTERN_INTERSEX    7
 #define PATTERN_ASEXUAL     8
 #define PATTERN_ALLY        9
 #define PATTERN_LEATHER     10
 #define PATTERN_BEAR        11
+
+#define ACTIVE_PATTERNS 6
 
 /**
  * Modes:

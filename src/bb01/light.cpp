@@ -8,78 +8,103 @@
 
 #include "light.h"
 
-// #define PATTERN_RGB         0
-const color pattern_rgb[] = {
+// #define color_RGB         0
+const color color_rgb[] = {
     {255, 0, 0},
     {0, 255, 0},
     {0, 0, 255}
 };
+const pattern pattern_rgb = {color_rgb, 3};
 
-// #define PATTERN_PRIDE       1
-const color pattern_pride[] = {
+// #define color_PRIDE       1
+const color color_pride[] = {
     {255, 0, 0},
     {253, 255, 0},
     {60, 255, 0},
     {0, 133, 255},
     {140, 0, 219},
 };
+const pattern pattern_pride = {color_pride, 5};
 
-// #define PATTERN_TRANS       2
-const color pattern_trans[] = {
+// #define color_TRANS       2
+const color color_trans[] = {
     {91,206,250},
     {245, 169, 184},
     {255, 255, 255},
     {91,206,250},
     {245, 169, 184}
 };
+const pattern pattern_trans = {color_trans, 5};
 
-
-// #define PATTERN_GENDERQUEER 3
-const color pattern_genderqueer[] = {
+// #define color_GENDERQUEER 3
+const color color_genderqueer[] = {
 	{201, 138, 255},
     {255, 255, 255},
     {80, 150, 85}
 };
+const pattern pattern_genderqueer = {color_genderqueer, 5};
 
-// #define PATTERN_NONBINARY   4
+// #define color_NONBINARY   4
+const color color_nonbinary[] = {};
+const pattern pattern_nonbinary = {color_nonbinary, 0};
 
-// #define PATTERN_INTERSEX    5
+// #define color_INTERSEX    5
+const color color_intersex[] = {};
+const pattern pattern_intersex = {color_intersex, 0};
 
-// #define PATTERN_BISEXUAL    6
-const color pattern_bisexual[] = {
-    {255, 57, 187},
-    {214, 0, 255},
-    {0, 4, 255}
+// #define color_BISEXUAL    6
+const color color_bisexual[] = {
+    {219, 0, 110},
+    {154, 63, 161},
+    {58, 61, 168}
 };
+const pattern pattern_bisexual = {color_bisexual, 3};
 
-// #define PATTERN_PANSEXUAL   7
-const color pattern_pansexual[] = {
+// #define color_PANSEXUAL   7
+const color color_pansexual[] = {
     {255, 0, 193},
     {255, 244, 0},
     {110, 186, 255}
 };
+const pattern pattern_pansexual = {color_pansexual, 3};
 
-// #define PATTERN_ASEXUAL     8
+// #define color_ASEXUAL     8
+const color color_asexual[] = {};
+const pattern pattern_asexual = {color_asexual, 0};
 
-// #define PATTERN_ALLY        9
+// #define color_ALLY        9
+const color color_ally[] = {};
+const pattern pattern_ally = {color_ally, 0};
 
-// #define PATTERN_LEATHER     10
+// #define color_LEATHER     10
+const color color_leather[] = {};
+const pattern pattern_leather = {color_leather, 0};
 
-// #define PATTERN_BEAR        11
+// #define color_BEAR        11
+const color color_bear[] = {};
+const pattern pattern_bear = {color_bear, 0};
 
+const pattern patterns[] = {
+    pattern_rgb,
+    pattern_pride,
+    pattern_trans,
+    pattern_genderqueer,
+    // pattern_nonbinary,
+    // pattern_intersex,
+    pattern_bisexual,
+    pattern_pansexual,
+    // const pattern pattern_asexual = {color_asexual, 0};
+    // const pattern pattern_ally = {color_ally, 0};
+    // const pattern pattern_leather = {color_leather, 0};
+    // const pattern pattern_bear = {color_bear, 0};
+};
 
 LightHandler::LightHandler() {
-    // Parameter 1 = number of pixels in strip
-    // Parameter 2 = pin number (most are valid)
-    // Parameter 3 = pixel type flags, add together as needed:
-    //   NEO_KHZ800  800 KHz bitstream (most NeoPixel products w/WS2812 LEDs)
-    //   NEO_KHZ400  400 KHz (classic 'v1' (not v2) FLORA pixels, WS2811 drivers)
-    //   NEO_GRB     Pixels are wired for GRB bitstream (most NeoPixel products)
-    //   NEO_RGB     Pixels are wired for RGB bitstream (v1 FLORA pixels, not v2)
-    this->strip = Adafruit_NeoPixel(20, LED_PIN);
+    // for some reason the jewel wants 20 pixels in the strip?
+    this->strip = Adafruit_NeoPixel(PIXELS, LED_PIN);
     this->strip.begin();
     this->strip.show();
-    this->strip.setBrightness(50);
+    this->strip.setBrightness(BRIGHTNESS);
 }
 
 LightHandler::~LightHandler() {

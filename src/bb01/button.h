@@ -1,8 +1,6 @@
 /**
  * Button handling
  * Emily Young <emily@zavtralabs.com>
- *
- * Debounce code adapted from https://www.arduino.cc/en/tutorial/debounce
  */
 
 #ifndef BUTTON_H

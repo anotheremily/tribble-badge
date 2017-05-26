@@ -16,6 +16,11 @@ typedef struct {
     uint8_t blue;
 } color;
 
+typedef struct {
+    color *colors;
+    uint8_t len;
+} pattern;
+
 class LightHandler {
 public:
     LightHandler();
