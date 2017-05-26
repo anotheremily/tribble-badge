@@ -35,11 +35,11 @@ const color pattern_trans[] = {
 
 
 // #define PATTERN_GENDERQUEER 3
-const color pattern_genderqueer = {
-	{201, 138, 255}
+const color pattern_genderqueer[] = {
+	{201, 138, 255},
     {255, 255, 255},
     {80, 150, 85}
-}
+};
 
 // #define PATTERN_NONBINARY   4
 
