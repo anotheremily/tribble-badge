@@ -1,6 +1,7 @@
 /**
  * Light handling
  * Emily Young <emily@zavtralabs.com>
+ *
  * Most colors adapted from:
  *      http://www.color-hex.com/color-palettes/?keyword=pride
  * Structure inspiration from QC12 Badge by George

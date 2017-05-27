@@ -1,6 +1,8 @@
 #include "constants.h"
 #include "button.h"
 #include "light.h"
+#include "store.h"
+#include "pairing.h"
 
 ButtonHandler *buttons;
 LightHandler *lights;
@@ -8,6 +10,7 @@ LightHandler *lights;
 void setup() {
     buttons = new ButtonHandler();
     lights = new LightHandler();
+    storeInit(0);
 }
 
 /**
@@ -20,7 +23,7 @@ void setup() {
  */
 void loop() {
 
-    // poll buttons to see if one or more is pressed
+    // Button handling - poll buttons to see if one or more is pressed
     uint8_t buttonPressed = buttons->poll();
 
     switch (buttonPressed) {
@@ -40,8 +43,18 @@ void loop() {
             break;
     }
 
-    // @TODO check for pairing
-    // pairing->check();
+    // Pairing
+    if (isConnected()) {
+        if (attemptPairing()) {
+            // @TODO incr level
+            // @TODO check for new unlocks
+            // @TODO lights - happy pattern
+        } else {
+            // @TODO lights - sad pattern
+        }
+    }
+
+    // @TODO microphone
 
     // update lights
     lights->step();

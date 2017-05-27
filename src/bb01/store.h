@@ -11,7 +11,6 @@
 #ifndef STORE_H
 #define STORE_H
 
-#include <EEPROM.h>
 #include "constants.h"
 
 /**

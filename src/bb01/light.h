@@ -1,5 +1,5 @@
 /**
- * Button handling
+ * Light handling
  * Emily Young <emily@zavtralabs.com>
  */
 

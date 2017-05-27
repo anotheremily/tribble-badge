@@ -23,6 +23,18 @@
 
 #define DEBOUNCE_DELAY 50
 
+// Pairing & Memory
+#define NUM_BADGES 60
+#define UNLOCK_FEATURES 5
+
+#define ADDRESS_BADGE_ID    0
+#define ADDRESS_LEVEL      1
+#define ADDRESS_PAIRING_COUNT  2
+
+#define ADDRESS_UNLOCK_START  10
+
+#define ADDRESS_PAIRING_START  100
+
 // Lights
 #define LED_PIN 0
 #define PIXELS 14
@@ -50,18 +62,18 @@
  * Leather
  * Bear
  */
-#define PATTERN_RGB         0
-#define PATTERN_PRIDE       1
-#define PATTERN_TRANS       2
+#define PATTERN_RGB     0
+#define PATTERN_PRIDE    1
+#define PATTERN_TRANS    2
 #define PATTERN_GENDERQUEER 3
-#define PATTERN_BISEXUAL    4
-#define PATTERN_PANSEXUAL   5
-#define PATTERN_NONBINARY   6
-#define PATTERN_INTERSEX    7
-#define PATTERN_ASEXUAL     8
-#define PATTERN_ALLY        9
-#define PATTERN_LEATHER     10
-#define PATTERN_BEAR        11
+#define PATTERN_BISEXUAL  4
+#define PATTERN_PANSEXUAL  5
+#define PATTERN_NONBINARY  6
+#define PATTERN_INTERSEX  7
+#define PATTERN_ASEXUAL   8
+#define PATTERN_ALLY    9
+#define PATTERN_LEATHER   10
+#define PATTERN_BEAR    11
 
 #define ACTIVE_PATTERNS 6
 
@@ -76,14 +88,14 @@
  * - Visualizer 1 TBD
  * - Visualizer 2 TBD
  */
-#define MODE_BLINK          0
-#define MODE_CROSSFADE_ALL  1
+#define MODE_BLINK     0
+#define MODE_CROSSFADE_ALL 1
 #define MODE_CROSSFADE_HORZ 2
 #define MODE_CROSSFADE_VERT 3
-#define MODE_CHASE          4
-#define MODE_SPARKS         5
-#define MODE_VIS_1          6
-#define MODE_VIS_2          7
+#define MODE_CHASE     4
+#define MODE_SPARKS     5
+#define MODE_VIS_1     6
+#define MODE_VIS_2     7
 
 #define ACTIVE_MODES 8
 

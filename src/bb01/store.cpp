@@ -1,3 +1,9 @@
+/**
+ * EEPROM storage
+ * Emily Young <emily@zavtralabs.com>
+ */
+
+#include <EEPROM.h>
 #include "store.h"
 
 void storeInit(uint8_t badgeId) {
