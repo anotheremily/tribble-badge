@@ -114,16 +114,26 @@ void LightHandler::step() {
     if (this->mode == MODE_BLINK) {
         this->stepModeBlink();
     } else if (this->mode == MODE_CROSSFADE_ALL) {
-        this->stepModeCrossfadeAll();
+        //this->stepModeCrossfadeAll();
+    } else if (this->mode == MODE_CROSSFADE_HORZ) {
+        // @TODO implement
+    } else if (this->mode == MODE_CROSSFADE_VERT) {
+        // @TODO implement
+    } else if (this->mode == MODE_CHASE) {
+        // @TODO implement
+    } else if (this->mode == MODE_CHASE_ACROSS) {
+        // @TODO implement
+    } else if (this->mode == MODE_CHASE_DOWN) {
+        // @TODO implement
+    } else if (this->mode == MODE_SPARKS) {
+        // @TODO implement
+    } else if (this->mode == MODE_DANCE) {
+        // @TODO implement
+    } else if (this->mode == MODE_EQUALIZER) {
+        // @TODO implement
+    } else {
+        // skip
     }
-
-    // #define MODE_CROSSFADE_ALL 1
-    // #define MODE_CROSSFADE_HORZ 2
-    // #define MODE_CROSSFADE_VERT 3
-    // #define MODE_CHASE 4
-    // #define MODE_SPARKS 5
-    // #define MODE_DANCE 6
-    // #define MODE_EQUALIZER 7
 }
 
 void LightHandler::stepModeBlink() {
@@ -132,7 +142,8 @@ void LightHandler::stepModeBlink() {
         ? colorOff
         : patterns[this->pattern].colors[this->patternStep];
 
-    color_t color = stepColor(translateColor(this->strip.getPixelColor(0)),
+    color_t color = stepColor(
+        translateColor(this->strip.getPixelColor(0)),
         target, this->crossfadeAmount);
 
     for (uint8_t i = 0; i < this->strip.numPixels(); i += 1) {
@@ -140,7 +151,8 @@ void LightHandler::stepModeBlink() {
     }
     this->strip.show();
 
-    if (isEqual(color, target)) { // if need to step pattern
+    // go to next color at the end of the pattern (or off state if in between)
+    if (isEqual(color, target)) {
         if (this->modeStep == 0) {
             this->modeStep = 1;
             target = colorOff;
