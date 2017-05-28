@@ -19,12 +19,12 @@ const color_t color_rgb[] = {
 const pattern_t pattern_rgb = {color_rgb, 3};
 
 const color_t color_pride[] = {
-    {228, 3, 3},
-    {255, 149, 0},
-    {255, 237, 0},
-    {0, 128, 38},
-    {0, 77, 255},
-    {117, 7, 135}
+    {232, 4, 0},
+    {255, 141, 0},
+    {255, 239, 0},
+    {0, 129, 33},
+    {0, 68, 255},
+    {119, 0, 137}
 };
 const pattern_t pattern_pride = {color_pride, 6};
 
@@ -117,24 +117,22 @@ void LightHandler::step() {
         this->stepModeBlink();
     } else if (this->mode == MODE_CROSSFADE_ALL) {
         this->stepModeCrossfadeAll();
-    } else if (this->mode == MODE_CROSSFADE_HORZ) {
-        // @TODO implement
-    } else if (this->mode == MODE_CROSSFADE_VERT) {
-        // @TODO implement
-    } else if (this->mode == MODE_CHASE) {
-        // @TODO implement
+    } else if (this->mode == MODE_CROSSFADE_ACROSS) {
+        this->stepModeCrossfadeAcross();
+    } else if (this->mode == MODE_CROSSFADE_DOWN) {
+        this->stepModeCrossfadeDown();
+    } else if (this->mode == MODE_CHASE_AROUND) {
+        this->stepModeChaseAround();
     } else if (this->mode == MODE_CHASE_ACROSS) {
-        // @TODO implement
+        this->stepModeChaseAcross();
     } else if (this->mode == MODE_CHASE_DOWN) {
-        // @TODO implement
+        this->stepModeChaseDown();
     } else if (this->mode == MODE_SPARKS) {
-        // @TODO implement
+        this->stepModeSparks();
     } else if (this->mode == MODE_DANCE) {
-        // @TODO implement
+        this->stepModeDance();
     } else if (this->mode == MODE_EQUALIZER) {
-        // @TODO implement
-    } else {
-        // skip
+        this->stepModeEqualizer();
     }
 }
 
@@ -206,6 +204,51 @@ void LightHandler::stepModeCrossfadeAll() {
     }
 }
 
+void LightHandler::stepModeCrossfadeAcross() {
+}
+
+void LightHandler::stepModeCrossfadeDown() {
+}
+
+void LightHandler::stepModeChaseAround() {
+}
+
+void LightHandler::stepModeChaseAcross() {
+}
+
+void LightHandler::stepModeChaseDown() {
+}
+
+void LightHandler::stepModeSparks() {
+    if (this->modeStep == 1) {
+        // if already on, turn off or hold
+        this->strip.setPixelColor(this->patternStep, 0, 0, 0, 0);
+        this->strip.show();
+        this->patternHold = 0;
+        this->modeStep = 0;
+    } else {
+        if (pseudorand() % 100 < SPARK_PCT) {
+            uint8_t idx = pseudorand() % patterns[this->pattern].len;
+            uint8_t pixel = pseudorand() % NUM_PIXELS;
+            color_t color = patterns[this->pattern].colors[idx];
+            this->strip.setPixelColor(pixel,
+                                      color.red,
+                                      color.green,
+                                      color.blue,
+                                      0);
+            this->strip.show();
+            this->patternStep = pixel;
+            this->modeStep = 1;
+        }
+    }
+}
+
+void LightHandler::stepModeDance() {
+}
+
+void LightHandler::stepModeEqualizer() {
+}
+
 void LightHandler::stepPattern() {
     this->pattern += 1;
     if (this->pattern == ACTIVE_PATTERNS) {  // loop back around
@@ -241,23 +284,23 @@ void LightHandler::stepMode() {
 }
 
 void LightHandler::debug() {
-
-    for (uint8_t p = NUM_PIXELS; p > 0; p -= 1) {
-        for (uint8_t i = 0; i < 255; i += 1) {
-            this->strip.setPixelColor(p - 1, i, i, i, 0);
-            this->strip.show();
-            delay(1);
-        }
-    }
-
-    delay(1000);
-
-    for (uint8_t i = 255; i > 0; i -= 1) {
-        for (uint8_t p = 0; p < NUM_PIXELS; p += 1) {
-            this->strip.setPixelColor(p, i - 1, i - 1, i - 1, 0);
-        }
-        this->strip.show();
-    }
+    //
+    // for (uint8_t p = NUM_PIXELS; p > 0; p -= 1) {
+    //     for (uint8_t i = 0; i < 255; i += 1) {
+    //         this->strip.setPixelColor(p - 1, i, i, i, 0);
+    //         this->strip.show();
+    //         delay(1);
+    //     }
+    // }
+    //
+    // delay(1000);
+    //
+    // for (uint8_t i = 255; i > 0; i -= 1) {
+    //     for (uint8_t p = 0; p < NUM_PIXELS; p += 1) {
+    //         this->strip.setPixelColor(p, i - 1, i - 1, i - 1, 0);
+    //     }
+    //     this->strip.show();
+    // }
 }
 
 color_t translateColor(uint32_t c32) {
@@ -283,18 +326,23 @@ color_t stepColor(color_t current, color_t target, crossfade_t amount) {
 }
 
 uint8_t stepChannel(uint8_t current, uint8_t target, uint8_t amount) {
-    if (current < target && current + amount < target) {  // increment up
-        return current + amount;
-    } else if (current > target && current - amount > target) {  // increment down
-        return current - amount;
+    if (current < target) {
+        if (current + amount < target) {  // increment up
+            return current + amount;
+        }
+    } else if (current > target) {
+        if (current - amount > target) {  // increment down
+            return current - amount;
+        }
     }
     return target;
 }
 
 crossfade_t getCrossfadeAmount(color_t current, color_t target) {
+    // add one to each to make sure we ner get in a stuck state
     return crossfade_t {
-        abs(current.red - target.red) / CROSSFADE_STEPS,
-        abs(current.green - target.green) / CROSSFADE_STEPS,
-        abs(current.blue - target.blue) / CROSSFADE_STEPS
+        abs(current.red - target.red) / CROSSFADE_STEPS + 1,
+        abs(current.green - target.green) / CROSSFADE_STEPS + 1,
+        abs(current.blue - target.blue) / CROSSFADE_STEPS + 1
     };
 }

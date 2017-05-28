@@ -12,6 +12,11 @@
 // Loop Constants
 #define LOOP_DELAY 100  // ms
 
+#define RAND_SEED 123456789
+#define RAND_A 1103515245
+#define RAND_C 12345
+#define RAND_M 2554294967296   // 2^32
+
 // Buttons
 #define BUTTON_NONE 0
 #define BUTTON_1 1
@@ -96,19 +101,23 @@
 #define PATTERN_BEAR    11
 
 // Modes
-#define ACTIVE_MODES 2  // 8
+#define ACTIVE_MODES 3  // 8
 
-#define MODE_BLINK     0
-#define MODE_CROSSFADE_ALL 1
+#define MODE_SPARKS 0
+#define MODE_BLINK 1
+#define MODE_CROSSFADE_ALL 2
 
 // Not implemented yet
-#define MODE_CROSSFADE_HORZ 2
-#define MODE_CROSSFADE_VERT 3
-#define MODE_CHASE 4
-#define MODE_CHASE_ACROSS 5
-#define MODE_CHASE_DOWN 6
-#define MODE_SPARKS 7
-#define MODE_DANCE 8
-#define MODE_EQUALIZER 9
+#define MODE_CROSSFADE_ACROSS 10
+#define MODE_CROSSFADE_DOWN 11
+#define MODE_CHASE_AROUND 12
+#define MODE_CHASE_ACROSS 13
+#define MODE_CHASE_DOWN 14
+#define MODE_DANCE 16
+#define MODE_EQUALIZER 17
+
+// Mode specific constants
+#define SPARK_PCT 30  // chance of a spark firing
+
 
 #endif

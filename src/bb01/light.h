@@ -9,6 +9,7 @@
 #include "Adafruit_NeoPixel.h"
 #include "constants.h"
 #include "store.h"
+#include "util.h"
 
 typedef struct {
     uint8_t red;
@@ -110,6 +111,15 @@ private:
     // mode step functions
     void stepModeBlink();
     void stepModeCrossfadeAll();
+
+    void stepModeCrossfadeAcross();
+    void stepModeCrossfadeDown();
+    void stepModeChaseAround();
+    void stepModeChaseAcross();
+    void stepModeChaseDown();
+    void stepModeSparks();
+    void stepModeDance();
+    void stepModeEqualizer();
 };
 
 #endif

@@ -4,7 +4,13 @@
 #include "constants.h"
 
 #ifdef TARGET_ARDUINO
-    int freeRam ();
+    int freeRam();
 #endif
+
+/**
+ * Return semi-random number
+ * @return uint8_t random number
+ */
+unsigned int pseudorand();
 
 #endif
