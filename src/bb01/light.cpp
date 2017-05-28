@@ -19,13 +19,14 @@ const color_t color_rgb[] = {
 const pattern_t pattern_rgb = {color_rgb, 3};
 
 const color_t color_pride[] = {
-    {255, 0, 0},
-    {253, 255, 0},
-    {60, 255, 0},
-    {0, 133, 255},
-    {140, 0, 219},
+    {228, 3, 3},
+    {255, 149, 0},
+    {255, 237, 0},
+    {0, 128, 38},
+    {0, 77, 255},
+    {117, 7, 135}
 };
-const pattern_t pattern_pride = {color_pride, 5};
+const pattern_t pattern_pride = {color_pride, 6};
 
 const color_t color_trans[] = {
     {91,206,250},
