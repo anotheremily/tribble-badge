@@ -21,7 +21,7 @@
 #define BUTTON_OFF 0
 #define BUTTON_ON 1
 
-#define DEBOUNCE_DELAY 50
+#define DEBOUNCE_DELAY 40
 
 // Pairing & Memory
 #define NUM_BADGES 60
@@ -40,9 +40,10 @@
 // Lights
 #define LED_PIN 0
 #define PIXELS 14
-#define BRIGHTNESS 50
+#define BRIGHTNESS 40
 
 #define CROSSFADE_AMOUNT 10
+#define BLAH 10
 
 #define CHANNEL_ON 255
 #define CHANNEL_OFF 0
@@ -73,6 +74,15 @@
 #define MODE_DANCE 6
 #define MODE_EQUALIZER 7
 
-#define ACTIVE_MODES 8
+#define ACTIVE_MODES 2 // 8
+
+//     0   1   2   3   4   5
+//     ----------------------
+// 0       03          10
+// 1   04      02  11      09
+// 2       05          13
+// 3   05      01  12      08
+// 4       00          09
+
 
 #endif

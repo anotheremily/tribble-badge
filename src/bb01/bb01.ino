@@ -28,15 +28,13 @@ void loop() {
 
     switch (buttonPressed) {
         case BUTTON_1:  // Button 1 press
-            // lights->debug();
             lights->stepPattern();
             break;
         case BUTTON_2:
-            // lights->debug();
             lights->stepMode();
             break;
         case BUTTON_1_2:
-            lights->debug();
+            // lights->debug();
             break;
         case BUTTON_NONE:
         default:
@@ -58,4 +56,5 @@ void loop() {
 
     // update lights
     lights->step();
+    delay(20); // temp
 }
