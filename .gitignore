@@ -26,3 +26,6 @@ schematics/bb01/*.ses
 # Exported BOM files
 schematics/bb01/*.xml
 schematics/bb01/*.csv
+
+a.out
+test.cpp

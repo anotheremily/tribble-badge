@@ -10,7 +10,7 @@ LightHandler *lights;
 void setup() {
     buttons = new ButtonHandler();
     lights = new LightHandler();
-    storeInit(0);
+    // storeInit(0);
 }
 
 /**
@@ -56,5 +56,5 @@ void loop() {
 
     // update lights
     lights->step();
-    delay(20); // temp
+    delay(50); // temp
 }

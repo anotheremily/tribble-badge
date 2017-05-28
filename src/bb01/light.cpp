@@ -57,24 +57,23 @@ const color_t color_pansexual[] = {
 };
 const pattern_t pattern_pansexual = {color_pansexual, 3};
 
-
-const color_t color_nonbinary[] = {};
-const pattern_t pattern_nonbinary = {color_nonbinary, 0};
-
-const color_t color_intersex[] = {};
-const pattern_t pattern_intersex = {color_intersex, 0};
-
-const color_t color_asexual[] = {};
-const pattern_t pattern_asexual = {color_asexual, 0};
-
-const color_t color_ally[] = {};
-const pattern_t pattern_ally = {color_ally, 0};
-
-const color_t color_leather[] = {};
-const pattern_t pattern_leather = {color_leather, 0};
-
-const color_t color_bear[] = {};
-const pattern_t pattern_bear = {color_bear, 0};
+// const color_t color_nonbinary[] = {};
+// const pattern_t pattern_nonbinary = {color_nonbinary, 0};
+//
+// const color_t color_intersex[] = {};
+// const pattern_t pattern_intersex = {color_intersex, 0};
+//
+// const color_t color_asexual[] = {};
+// const pattern_t pattern_asexual = {color_asexual, 0};
+//
+// const color_t color_ally[] = {};
+// const pattern_t pattern_ally = {color_ally, 0};
+//
+// const color_t color_leather[] = {};
+// const pattern_t pattern_leather = {color_leather, 0};
+//
+// const color_t color_bear[] = {};
+// const pattern_t pattern_bear = {color_bear, 0};
 
 const pattern_t patterns[] = {
     pattern_rgb,
@@ -98,18 +97,20 @@ LightHandler::LightHandler() {
     this->strip.setBrightness(BRIGHTNESS);
 
     // restore pattern and mode from eeprom
-    this->pattern = getPattern();
-    this->mode = getMode();
+    this->pattern = 0; // getPattern();
+    this->mode = 0; // getMode();
     this->patternStep = 0;
     this->modeStep = 0;
+
+    this->crossfadeAmount = getCrossfadeAmount(
+        translateColor(this->strip.getPixelColor(0)),
+        patterns[this->pattern].colors[this->patternStep]);
 }
 
 LightHandler::~LightHandler() {
 }
 
 void LightHandler::step() {
-    pattern_t p = patterns[this->pattern];
-
     if (this->mode == MODE_BLINK) {
         this->stepModeBlink();
     } else if (this->mode == MODE_CROSSFADE_ALL) {
@@ -126,53 +127,54 @@ void LightHandler::step() {
 }
 
 void LightHandler::stepModeBlink() {
-    pattern_t p = patterns[this->pattern];
+    // get common color and target goals
+    color_t target = (this->modeStep == 1)
+        ? colorOff
+        : patterns[this->pattern].colors[this->patternStep];
 
-    // for blink, everything's the same, so no reason to step each one
-    color_t target = patterns[this->pattern].colors[this->patternStep];
-    if (this->modeStep == 1) {
-        target = colorOff;
+    color_t color = stepColor(translateColor(this->strip.getPixelColor(0)),
+        target, this->crossfadeAmount);
+
+    for (uint8_t i = 0; i < this->strip.numPixels(); i += 1) {
+        this->strip.setPixelColor(i, color.red, color.green, color.blue);
     }
-    color_t color = translateColor(this->strip.getPixelColor(0));
-    color = stepColor(color, target, CROSSFADE_AMOUNT);
+    this->strip.show();
 
     if (isEqual(color, target)) { // if need to step pattern
         if (this->modeStep == 0) {
             this->modeStep = 1;
+            target = colorOff;
         } else {
             this->modeStep = 0;
             this->patternStep += 1;
             if (this->patternStep == patterns[this->pattern].len) {
                 this->patternStep = 0;
             }
+            target = patterns[this->pattern].colors[this->patternStep];
         }
+        this->crossfadeAmount = getCrossfadeAmount(color, target);
     }
+}
+
+void LightHandler::stepModeCrossfadeAll() {
+    // for crossfade, everything's the same, so no reason to step each one
+    color_t target = patterns[this->pattern].colors[this->patternStep];
+    color_t color = translateColor(this->strip.getPixelColor(0));
+    color = stepColor(color, target, this->crossfadeAmount);
 
     for (uint8_t i = 0; i < this->strip.numPixels(); i += 1) {
         this->strip.setPixelColor(i, color.red, color.green, color.blue);
     }
     this->strip.show();
-}
-
-void LightHandler::stepModeCrossfadeAll() {
-    pattern_t p = patterns[this->pattern];
-
-    // for crossfade, everything's the same, so no reason to step each one
-    color_t target = patterns[this->pattern].colors[this->patternStep];
-    color_t color = translateColor(this->strip.getPixelColor(0));
-    color = stepColor(color, target, BLAH);
 
     if (isEqual(color, target)) { // if need to step pattern
         this->patternStep += 1;
         if (this->patternStep == patterns[this->pattern].len) {
             this->patternStep = 0;
         }
+        this->crossfadeAmount = getCrossfadeAmount(
+            color, patterns[this->pattern].colors[this->patternStep]);
     }
-
-    for (uint8_t i = 0; i < this->strip.numPixels(); i += 1) {
-        this->strip.setPixelColor(i, color.red, color.green, color.blue);
-    }
-    this->strip.show();
 }
 
 void LightHandler::stepPattern() {
@@ -181,6 +183,14 @@ void LightHandler::stepPattern() {
         this->pattern = 0;
     }
     this->patternStep = 0;
+
+    // get new timings
+    this->crossfadeAmount = getCrossfadeAmount(
+        translateColor(this->strip.getPixelColor(0)),
+        patterns[this->pattern].colors[this->patternStep]);
+
+    // @TODO uncomment
+    // setPattern(this->pattern);
 }
 
 void LightHandler::stepMode() {
@@ -193,11 +203,12 @@ void LightHandler::stepMode() {
     this->patternStep = 0;
     this->modeStep = 0;
 
-    setMode(this->mode);
-}
+    this->crossfadeAmount = getCrossfadeAmount(
+        translateColor(this->strip.getPixelColor(0)),
+        patterns[this->pattern].colors[this->patternStep]);
 
-void LightHandler::reset() {
-    // @TODO implement?
+    // @TODO uncomment
+    // setMode(this->mode);
 }
 
 void LightHandler::debug() {
@@ -220,32 +231,41 @@ void LightHandler::debug() {
     }
 }
 
-inline color_t translateColor(uint32_t c32) {
-    color_t c;
-    c.red = (uint8_t) (c32 >> 16);
-    c.green = (uint8_t) (c32 >>  8);
-    c.blue = (uint8_t) c32;
-    return c;
+color_t translateColor(uint32_t c32) {
+    return color_t {
+        (uint8_t) ((c32 >> 16) & 0xff),
+        (uint8_t) ((c32 >>  8) & 0xff),
+        (uint8_t) (c32 & 0xff)
+    };
 }
 
-inline bool isEqual(color_t current, color_t target) {
+bool isEqual(color_t current, color_t target) {
     return current.red == target.red &&
-        current.blue == target.blue &&
-        current.green == target.green;
+        current.green == target.green &&
+        current.blue == target.blue;
 }
 
-inline color_t stepColor(color_t current, color_t target, uint8_t amount) {
-    current.red = stepChannel(current.red, target.red, amount);
-    current.blue = stepChannel(current.blue, target.blue, amount);
-    current.green = stepChannel(current.green, target.green, amount);
-    return current;
+color_t stepColor(color_t current, color_t target, crossfade_t amount) {
+    return color_t {
+        stepChannel(current.red, target.red, amount.red),
+        stepChannel(current.green, target.green, amount.green),
+        stepChannel(current.blue, target.blue, amount.blue)
+    };
 }
 
-inline uint8_t stepChannel(uint8_t current, uint8_t target, uint8_t amount) {
-    if (current < target) {  // increment up
-        current = current + amount > target ? target : current + amount;
-    } else if (current > target) {  // increment down
-        current = current - amount < target ? target : current - amount;
+uint8_t stepChannel(uint8_t current, uint8_t target, uint8_t amount) {
+    if (current + amount < target) {  // increment up
+        return current + amount;
+    } else if (current - amount > target) {  // increment down
+        return current - amount;
     }
-    return current;
+    return target;
+}
+
+crossfade_t getCrossfadeAmount(color_t current, color_t target) {
+    return crossfade_t {
+        abs(current.red - target.red) / CROSSFADE_STEPS + 1,
+        abs(current.green - target.green) / CROSSFADE_STEPS + 1,
+        abs(current.blue - target.blue) / CROSSFADE_STEPS + 1
+    };
 }

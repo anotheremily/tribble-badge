@@ -42,14 +42,15 @@
 #define PIXELS 14
 #define BRIGHTNESS 40
 
-#define CROSSFADE_AMOUNT 10
-#define BLAH 10
+#define CROSSFADE_AMOUNT_SLOW 10
+#define CROSSFADE_AMOUNT_FAST 10
+#define CROSSFADE_STEPS 25
 
 #define CHANNEL_ON 255
 #define CHANNEL_OFF 0
 
 // Patterns
-#define ACTIVE_PATTERNS 6
+#define ACTIVE_PATTERNS 6 // 12
 
 #define PATTERN_RGB     0
 #define PATTERN_PRIDE    1
@@ -57,6 +58,8 @@
 #define PATTERN_GENDERQUEER 3
 #define PATTERN_BISEXUAL  4
 #define PATTERN_PANSEXUAL  5
+
+// Not implemented yet
 #define PATTERN_NONBINARY  6
 #define PATTERN_INTERSEX  7
 #define PATTERN_ASEXUAL   8
@@ -65,16 +68,20 @@
 #define PATTERN_BEAR    11
 
 // Modes
+#define ACTIVE_MODES 2 // 8
+
 #define MODE_BLINK     0
 #define MODE_CROSSFADE_ALL 1
+
+// Not implemented yet
 #define MODE_CROSSFADE_HORZ 2
 #define MODE_CROSSFADE_VERT 3
 #define MODE_CHASE 4
-#define MODE_SPARKS 5
-#define MODE_DANCE 6
-#define MODE_EQUALIZER 7
-
-#define ACTIVE_MODES 2 // 8
+#define MODE_CHASE_ACROSS 5
+#define MODE_CHASE_DOWN 6
+#define MODE_SPARKS 7
+#define MODE_DANCE 8
+#define MODE_EQUALIZER 9
 
 //     0   1   2   3   4   5
 //     ----------------------

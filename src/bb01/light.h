@@ -6,7 +6,6 @@
 #ifndef LIGHT_H
 #define LIGHT_H
 
-#include "Arduino.h"
 #include "Adafruit_NeoPixel.h"
 #include "constants.h"
 #include "store.h"
@@ -22,12 +21,18 @@ typedef struct {
     uint8_t len;
 } pattern_t;
 
+typedef struct {
+    uint8_t red;
+    uint8_t green;
+    uint8_t blue;
+} crossfade_t;
+
 /**
  * Translate 32 bit color to r,g,b values
  * @param uint32 color
  * @return color_t color
  */
-inline color_t translateColor(uint32_t);
+color_t translateColor(uint32_t);
 
 /**
  * Check if two colors are equal
@@ -35,7 +40,7 @@ inline color_t translateColor(uint32_t);
  * @param color_t target color
  * @return bool is equal?
  */
-inline bool isEqual(color_t current, color_t target);
+bool isEqual(color_t current, color_t target);
 
 /**
  * Increments color
@@ -44,7 +49,7 @@ inline bool isEqual(color_t current, color_t target);
  * @param uint8_t amount
  * @return color_t incremeneted color
  */
-inline color_t stepColor(color_t, color_t, uint8_t);
+color_t stepColor(color_t, color_t, crossfade_t);
 
 /**
  * Increments color channel (r,g,b)
@@ -53,7 +58,16 @@ inline color_t stepColor(color_t, color_t, uint8_t);
  * @param uint8_t amount
  * @return color_t color
  */
-inline uint8_t stepChannel(uint8_t, uint8_t, uint8_t);
+uint8_t stepChannel(uint8_t, uint8_t, uint8_t);
+
+/**
+ * Get current crossfade delta for all colors to arrive at the color at the
+ * same time.
+ * @param color_t current
+ * @param color_t target
+ * @return crossfade_t speeds
+ */
+crossfade_t getCrossfadeAmount(color_t, color_t);
 
 /**
  * Light handler class
@@ -79,11 +93,6 @@ public:
     void stepMode();
 
     /**
-     * Reset LEDs to off
-     */
-    void reset();
-
-    /**
      * Debug mode for leds
      */
     void debug();
@@ -94,6 +103,7 @@ private:
     uint8_t mode;
     uint8_t modeStep;  // used by modes to keep track of state
     uint8_t patternStep;  // used by modes to keep track of state
+    crossfade_t crossfadeAmount;
     // color_t[] led_targets;
 
     // mode step functions
