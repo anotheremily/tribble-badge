@@ -6,6 +6,9 @@
 #ifndef CONSTANTS_H
 #define CONSTANTS_H
 
+#define TARGET_TRINKET
+// #define TARGET_ARDUINO  // for debugging with serial
+
 // Loop Constants
 #define LOOP_DELAY 100  // ms
 
@@ -39,12 +42,13 @@
 
 // Lights
 #define LED_PIN 0
-#define PIXELS 14
-#define BRIGHTNESS 40
+#define NUM_PIXELS 14
+#define BRIGHTNESS 255
 
 #define CROSSFADE_AMOUNT_SLOW 10
 #define CROSSFADE_AMOUNT_FAST 10
-#define CROSSFADE_STEPS 25
+#define CROSSFADE_STEPS 40
+#define CROSSFADE_HOLD 20
 
 #define CHANNEL_ON 255
 #define CHANNEL_OFF 0
@@ -92,7 +96,7 @@
 #define PATTERN_BEAR    11
 
 // Modes
-#define ACTIVE_MODES 2 // 8
+#define ACTIVE_MODES 2  // 8
 
 #define MODE_BLINK     0
 #define MODE_CROSSFADE_ALL 1

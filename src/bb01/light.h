@@ -103,6 +103,7 @@ private:
     uint8_t mode;
     uint8_t modeStep;  // used by modes to keep track of state
     uint8_t patternStep;  // used by modes to keep track of state
+    uint8_t patternHold;
     crossfade_t crossfadeAmount;
     // color_t[] led_targets;
 

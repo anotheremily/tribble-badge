@@ -91,16 +91,17 @@ const pattern_t patterns[] = {
 };
 
 LightHandler::LightHandler() {
-    this->strip = Adafruit_NeoPixel(PIXELS, LED_PIN, NEO_GRBW + NEO_KHZ800);  // or NEO_GRBW
+    this->strip = Adafruit_NeoPixel(NUM_PIXELS, LED_PIN, NEO_GRBW + NEO_KHZ800);  // or NEO_GRBW
     this->strip.begin();
     this->strip.show();
-    this->strip.setBrightness(BRIGHTNESS);
+    // this->strip.setBrightness(BRIGHTNESS);
 
     // restore pattern and mode from eeprom
     this->pattern = 0; // getPattern();
     this->mode = 0; // getMode();
     this->patternStep = 0;
     this->modeStep = 0;
+    this->patternHold = 0;
 
     this->crossfadeAmount = getCrossfadeAmount(
         translateColor(this->strip.getPixelColor(0)),
@@ -114,7 +115,7 @@ void LightHandler::step() {
     if (this->mode == MODE_BLINK) {
         this->stepModeBlink();
     } else if (this->mode == MODE_CROSSFADE_ALL) {
-        //this->stepModeCrossfadeAll();
+        this->stepModeCrossfadeAll();
     } else if (this->mode == MODE_CROSSFADE_HORZ) {
         // @TODO implement
     } else if (this->mode == MODE_CROSSFADE_VERT) {
@@ -146,25 +147,33 @@ void LightHandler::stepModeBlink() {
         translateColor(this->strip.getPixelColor(0)),
         target, this->crossfadeAmount);
 
-    for (uint8_t i = 0; i < this->strip.numPixels(); i += 1) {
-        this->strip.setPixelColor(i, color.red, color.green, color.blue);
+    for (uint8_t i = 0; i < NUM_PIXELS; i += 1) {
+        this->strip.setPixelColor(i, color.red, color.green, color.blue, 0);
     }
     this->strip.show();
 
     // go to next color at the end of the pattern (or off state if in between)
     if (isEqual(color, target)) {
-        if (this->modeStep == 0) {
-            this->modeStep = 1;
-            target = colorOff;
+        if (this->modeStep == 0 && this->patternHold < CROSSFADE_HOLD) {
+            // hold color for a number of steps
+            this->patternHold += 1;
         } else {
-            this->modeStep = 0;
-            this->patternStep += 1;
-            if (this->patternStep == patterns[this->pattern].len) {
-                this->patternStep = 0;
+            // otherwise, go to the next step in the pattern
+            this->patternHold = 0;
+            if (this->modeStep == 0) {
+                // blink fades to black before going to next color
+                this->modeStep = 1;
+                target = colorOff;
+            } else {
+                this->modeStep = 0;
+                this->patternStep += 1;
+                if (this->patternStep == patterns[this->pattern].len) {
+                    this->patternStep = 0;
+                }
+                target = patterns[this->pattern].colors[this->patternStep];
             }
-            target = patterns[this->pattern].colors[this->patternStep];
+            this->crossfadeAmount = getCrossfadeAmount(color, target);
         }
-        this->crossfadeAmount = getCrossfadeAmount(color, target);
     }
 }
 
@@ -174,18 +183,25 @@ void LightHandler::stepModeCrossfadeAll() {
     color_t color = translateColor(this->strip.getPixelColor(0));
     color = stepColor(color, target, this->crossfadeAmount);
 
-    for (uint8_t i = 0; i < this->strip.numPixels(); i += 1) {
-        this->strip.setPixelColor(i, color.red, color.green, color.blue);
+    for (uint8_t i = 0; i < NUM_PIXELS; i += 1) {
+        this->strip.setPixelColor(i, color.red, color.green, color.blue, 0);
     }
     this->strip.show();
 
     if (isEqual(color, target)) { // if need to step pattern
-        this->patternStep += 1;
-        if (this->patternStep == patterns[this->pattern].len) {
-            this->patternStep = 0;
+        if (this->patternHold < CROSSFADE_HOLD) {
+            // hold color for a number of steps
+            this->patternHold += 1;
+        } else {
+            // otherwise, go to the next step in the pattern
+            this->patternHold = 0;
+            this->patternStep += 1;
+            if (this->patternStep == patterns[this->pattern].len) {
+                this->patternStep = 0;
+            }
+            this->crossfadeAmount = getCrossfadeAmount(
+                color, patterns[this->pattern].colors[this->patternStep]);
         }
-        this->crossfadeAmount = getCrossfadeAmount(
-            color, patterns[this->pattern].colors[this->patternStep]);
     }
 }
 
@@ -225,9 +241,9 @@ void LightHandler::stepMode() {
 
 void LightHandler::debug() {
 
-    for (uint8_t p = this->strip.numPixels(); p > 0; p -= 1) {
+    for (uint8_t p = NUM_PIXELS; p > 0; p -= 1) {
         for (uint8_t i = 0; i < 255; i += 1) {
-            this->strip.setPixelColor(p - 1, i, i, i);
+            this->strip.setPixelColor(p - 1, i, i, i, 0);
             this->strip.show();
             delay(1);
         }
@@ -236,8 +252,8 @@ void LightHandler::debug() {
     delay(1000);
 
     for (uint8_t i = 255; i > 0; i -= 1) {
-        for (uint8_t p = 0; p < this->strip.numPixels(); p += 1) {
-            this->strip.setPixelColor(p, i - 1, i - 1, i - 1);
+        for (uint8_t p = 0; p < NUM_PIXELS; p += 1) {
+            this->strip.setPixelColor(p, i - 1, i - 1, i - 1, 0);
         }
         this->strip.show();
     }
@@ -266,9 +282,9 @@ color_t stepColor(color_t current, color_t target, crossfade_t amount) {
 }
 
 uint8_t stepChannel(uint8_t current, uint8_t target, uint8_t amount) {
-    if (current + amount < target) {  // increment up
+    if (current < target && current + amount < target) {  // increment up
         return current + amount;
-    } else if (current - amount > target) {  // increment down
+    } else if (current > target && current - amount > target) {  // increment down
         return current - amount;
     }
     return target;
@@ -276,8 +292,8 @@ uint8_t stepChannel(uint8_t current, uint8_t target, uint8_t amount) {
 
 crossfade_t getCrossfadeAmount(color_t current, color_t target) {
     return crossfade_t {
-        abs(current.red - target.red) / CROSSFADE_STEPS + 1,
-        abs(current.green - target.green) / CROSSFADE_STEPS + 1,
-        abs(current.blue - target.blue) / CROSSFADE_STEPS + 1
+        abs(current.red - target.red) / CROSSFADE_STEPS,
+        abs(current.green - target.green) / CROSSFADE_STEPS,
+        abs(current.blue - target.blue) / CROSSFADE_STEPS
     };
 }
