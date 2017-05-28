@@ -27,9 +27,11 @@
 #define NUM_BADGES 60
 #define UNLOCK_FEATURES 5
 
-#define ADDRESS_BADGE_ID    0
-#define ADDRESS_LEVEL      1
+#define ADDRESS_BADGE_ID 0
+#define ADDRESS_LEVEL 1
 #define ADDRESS_PAIRING_COUNT  2
+#define ADDRESS_LAST_MODE 3
+#define ADDRESS_LAST_PATTERN 4
 
 #define ADDRESS_UNLOCK_START  10
 
@@ -45,23 +47,9 @@
 #define CHANNEL_ON 255
 #define CHANNEL_OFF 0
 
-/**
- * Patterns
- * Pride
- * RGB
- * Trans
- * Genderqueer
- * Nonbinary
- * Intersex
- *
- * TBD Patterns
- * Bisexual
- * Pansexual
- * Asexual
- * Ally
- * Leather
- * Bear
- */
+// Patterns
+#define ACTIVE_PATTERNS 6
+
 #define PATTERN_RGB     0
 #define PATTERN_PRIDE    1
 #define PATTERN_TRANS    2
@@ -75,27 +63,15 @@
 #define PATTERN_LEATHER   10
 #define PATTERN_BEAR    11
 
-#define ACTIVE_PATTERNS 6
-
-/**
- * Modes:
- * - Blink
- * - Crossfade (All)
- * - Crossfade (Horizontal/Across)
- * - Crossfade (Vertical/Down)
- * - Chase (Circles)
- * - Sparks (Flashing Random Colors)
- * - Visualizer 1 TBD
- * - Visualizer 2 TBD
- */
+// Modes
 #define MODE_BLINK     0
 #define MODE_CROSSFADE_ALL 1
 #define MODE_CROSSFADE_HORZ 2
 #define MODE_CROSSFADE_VERT 3
-#define MODE_CHASE     4
-#define MODE_SPARKS     5
-#define MODE_VIS_1     6
-#define MODE_VIS_2     7
+#define MODE_CHASE 4
+#define MODE_SPARKS 5
+#define MODE_DANCE 6
+#define MODE_EQUALIZER 7
 
 #define ACTIVE_MODES 8
 

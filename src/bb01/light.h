@@ -9,6 +9,7 @@
 #include "Arduino.h"
 #include "Adafruit_NeoPixel.h"
 #include "constants.h"
+#include "store.h"
 
 typedef struct {
     uint8_t red;

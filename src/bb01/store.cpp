@@ -18,6 +18,9 @@ void storeInit(uint8_t badgeId) {
     for (uint8_t i = 0; i < NUM_BADGES; i += 1) {
         EEPROM.write(ADDRESS_PAIRING_START + i, 0);
     }
+
+    setPattern(0);
+    setMode(0);
 }
 
 uint8_t getBadgeId() {
@@ -38,6 +41,22 @@ uint8_t incrPairingCount() {
     uint8_t level = EEPROM.read(ADDRESS_PAIRING_COUNT) + 1;
     EEPROM.write(ADDRESS_PAIRING_COUNT, level);
     return level;
+}
+
+uint8_t getMode() {
+    return EEPROM.read(ADDRESS_LAST_MODE);
+}
+
+void setMode(uint8_t mode) {
+    EEPROM.write(ADDRESS_LAST_MODE, mode);
+}
+
+uint8_t getPattern() {
+    return EEPROM.read(ADDRESS_LAST_PATTERN);
+}
+
+void setPattern(uint8_t pattern) {
+    EEPROM.write(ADDRESS_LAST_PATTERN, pattern);
 }
 
 bool isUnlocked(uint8_t featureId) {

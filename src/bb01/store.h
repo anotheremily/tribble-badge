@@ -50,6 +50,28 @@ uint8_t getPairingCount();
 uint8_t incrPairingCount();
 
 /**
+ * Get id of the last mode
+ * @return mode
+ */
+uint8_t getMode();
+
+/**
+ * Set mode
+ */
+void setMode(uint8_t);
+
+/**
+ * Get id of the pattern
+ * @return pattern
+ */
+uint8_t getPattern();
+
+/**
+ * Store pattern
+ */
+void setPattern(uint8_t);
+
+/**
  * Check if feature i is unlocked
  * @param uint8_t feature id
  * @return bool is unlocked
