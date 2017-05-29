@@ -21,6 +21,7 @@ Button::~Button() {
 
 uint8_t Button::poll() {
     uint8_t reading = digitalRead(this->pin);
+    uint16_t ms = millis();
 
     // check to see if you just pressed the button
     // (i.e. the input went from LOW to HIGH),  and you've waited
@@ -29,17 +30,13 @@ uint8_t Button::poll() {
     // If the switch changed, due to noise or pressing:
     if (reading != this->lastButtonState) {
         // reset the debouncing timer
-        this->lastDebounceTime = millis();
+        this->lastDebounceTime = ms;
     }
 
-    if ((millis() - this->lastDebounceTime) > DEBOUNCE_DELAY) {
+    if ((ms - this->lastDebounceTime) > DEBOUNCE_DELAY) {
         // whatever the reading is at, it's been there for longer
         // than the debounce delay, so take it as the actual current state:
-
-        // if the button state has changed:
-        if (reading != this->buttonState) {
-            this->buttonState = reading;
-        }
+        this->buttonState = reading;
     }
 
     // save the reading.  Next time through the loop,
