@@ -77,7 +77,6 @@ const color_t *patterns[] = {
 LightHandler::LightHandler() {
     this->strip = Adafruit_NeoPixel(NUM_PIXELS, LED_PIN, NEO_GRBW + NEO_KHZ800);  // or NEO_GRBW
     this->strip.begin();
-    this->strip.show();
     // this->strip.setBrightness(BRIGHTNESS);
 
     // restore pattern and mode from eeprom
@@ -117,6 +116,7 @@ void LightHandler::step() {
     } else if (this->mode == MODE_EQUALIZER) {
         this->stepModeEqualizer();
     }
+    this->strip.show();
 }
 
 void LightHandler::stepModeBlink() {
@@ -132,7 +132,6 @@ void LightHandler::stepModeBlink() {
     for (uint8_t i = 0; i < NUM_PIXELS; i += 1) {
         this->strip.setPixelColor(i, color.red, color.green, color.blue, 0);
     }
-    this->strip.show();
 
     // go to next color at the end of the pattern (or off state if in between)
     if (isEqual(color, target)) {
@@ -168,7 +167,6 @@ void LightHandler::stepModeCrossfadeAll() {
     for (uint8_t i = 0; i < NUM_PIXELS; i += 1) {
         this->strip.setPixelColor(i, color.red, color.green, color.blue, 0);
     }
-    this->strip.show();
 
     if (isEqual(color, target)) { // if need to step pattern
         if (this->patternHold < CROSSFADE_HOLD) {
@@ -211,21 +209,16 @@ void LightHandler::stepModeSparks() {
     if (this->modeStep == 1) {
         // if already on, turn off or hold
         this->strip.setPixelColor(this->patternStep, 0, 0, 0, 0);
-        this->strip.show();
-        this->patternHold = 0;
         this->modeStep = 0;
     } else {
         if (pseudorand() % 100 < SPARK_CHANCE) {
             uint8_t idx = pseudorand() % (sizeof(patterns[this->pattern]) + 1);
-            uint8_t pixel = pseudorand() % NUM_PIXELS;
-            color_t color = patterns[this->pattern][idx];
-            this->strip.setPixelColor(pixel,
-                                      color.red,
-                                      color.green,
-                                      color.blue,
+            this->patternStep = pseudorand() % NUM_PIXELS;
+            this->strip.setPixelColor(this->patternStep,
+                                      patterns[this->pattern][idx].red,
+                                      patterns[this->pattern][idx].green,
+                                      patterns[this->pattern][idx].blue,
                                       0);
-            this->strip.show();
-            this->patternStep = pixel;
             this->modeStep = 1;
         }
     }
