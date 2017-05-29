@@ -18,11 +18,6 @@ typedef struct {
 } color_t;
 
 typedef struct {
-    color_t *colors;
-    uint8_t len;
-} pattern_t;
-
-typedef struct {
     uint8_t red;
     uint8_t green;
     uint8_t blue;
@@ -70,6 +65,8 @@ uint8_t stepChannel(uint8_t, uint8_t, uint8_t);
  */
 crossfade_t getCrossfadeAmount(color_t, color_t);
 
+uint8_t getCrossfadeChannel(uint8_t current, uint8_t target);
+
 /**
  * Light handler class
  */
@@ -111,13 +108,13 @@ private:
     // mode step functions
     void stepModeBlink();
     void stepModeCrossfadeAll();
+    void stepModeSparks();
 
     void stepModeCrossfadeAcross();
     void stepModeCrossfadeDown();
     void stepModeChaseAround();
     void stepModeChaseAcross();
     void stepModeChaseDown();
-    void stepModeSparks();
     void stepModeDance();
     void stepModeEqualizer();
 };

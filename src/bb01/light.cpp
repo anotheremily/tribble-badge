@@ -16,7 +16,6 @@ const color_t color_rgb[] = {
     {0, 255, 0},
     {0, 0, 255}
 };
-const pattern_t pattern_rgb = {color_rgb, 3};
 
 const color_t color_pride[] = {
     {232, 4, 0},
@@ -26,7 +25,6 @@ const color_t color_pride[] = {
     {0, 68, 255},
     {119, 0, 137}
 };
-const pattern_t pattern_pride = {color_pride, 6};
 
 const color_t color_trans[] = {
     {91,206,250},
@@ -35,60 +33,45 @@ const color_t color_trans[] = {
     {91,206,250},
     {245, 169, 184}
 };
-const pattern_t pattern_trans = {color_trans, 5};
 
 const color_t color_genderqueer[] = {
 	{201, 138, 255},
     {255, 255, 255},
     {80, 150, 85}
 };
-const pattern_t pattern_genderqueer = {color_genderqueer, 5};
 
 const color_t color_bisexual[] = {
     {219, 0, 110},
     {154, 63, 161},
     {58, 61, 168}
 };
-const pattern_t pattern_bisexual = {color_bisexual, 3};
 
 const color_t color_pansexual[] = {
     {255, 0, 193},
     {255, 244, 0},
     {110, 186, 255}
 };
-const pattern_t pattern_pansexual = {color_pansexual, 3};
 
 // const color_t color_nonbinary[] = {};
-// const pattern_t pattern_nonbinary = {color_nonbinary, 0};
-//
 // const color_t color_intersex[] = {};
-// const pattern_t pattern_intersex = {color_intersex, 0};
-//
 // const color_t color_asexual[] = {};
-// const pattern_t pattern_asexual = {color_asexual, 0};
-//
 // const color_t color_ally[] = {};
-// const pattern_t pattern_ally = {color_ally, 0};
-//
 // const color_t color_leather[] = {};
-// const pattern_t pattern_leather = {color_leather, 0};
-//
 // const color_t color_bear[] = {};
-// const pattern_t pattern_bear = {color_bear, 0};
 
-const pattern_t patterns[] = {
-    pattern_rgb,
-    pattern_pride,
-    pattern_trans,
-    pattern_genderqueer,
-    pattern_bisexual,
-    pattern_pansexual,
-    // pattern_nonbinary,
-    // pattern_intersex,
-    // pattern_asexual
-    // pattern pattern_ally
-    // pattern pattern_leather
-    // pattern pattern_bear
+const color_t *patterns[] = {
+    color_rgb,
+    color_pride,
+    color_trans,
+    color_genderqueer,
+    color_bisexual,
+    color_pansexual,
+    // color_nonbinary,
+    // color_intersex,
+    // color_asexual
+    // color_ally
+    // color_leather
+    // color_bear
 };
 
 LightHandler::LightHandler() {
@@ -106,7 +89,7 @@ LightHandler::LightHandler() {
 
     this->crossfadeAmount = getCrossfadeAmount(
         translateColor(this->strip.getPixelColor(0)),
-        patterns[this->pattern].colors[this->patternStep]);
+        patterns[this->pattern][this->patternStep]);
 }
 
 LightHandler::~LightHandler() {
@@ -140,7 +123,7 @@ void LightHandler::stepModeBlink() {
     // get common color and target goals
     color_t target = (this->modeStep == 1)
         ? colorOff
-        : patterns[this->pattern].colors[this->patternStep];
+        : patterns[this->pattern][this->patternStep];
 
     color_t color = stepColor(
         translateColor(this->strip.getPixelColor(0)),
@@ -166,10 +149,10 @@ void LightHandler::stepModeBlink() {
             } else {
                 this->modeStep = 0;
                 this->patternStep += 1;
-                if (this->patternStep == patterns[this->pattern].len) {
+                if (this->patternStep == sizeof(patterns[this->pattern]) + 1) {
                     this->patternStep = 0;
                 }
-                target = patterns[this->pattern].colors[this->patternStep];
+                target = patterns[this->pattern][this->patternStep];
             }
             this->crossfadeAmount = getCrossfadeAmount(color, target);
         }
@@ -178,7 +161,7 @@ void LightHandler::stepModeBlink() {
 
 void LightHandler::stepModeCrossfadeAll() {
     // for crossfade, everything's the same, so no reason to step each one
-    color_t target = patterns[this->pattern].colors[this->patternStep];
+    color_t target = patterns[this->pattern][this->patternStep];
     color_t color = translateColor(this->strip.getPixelColor(0));
     color = stepColor(color, target, this->crossfadeAmount);
 
@@ -195,28 +178,33 @@ void LightHandler::stepModeCrossfadeAll() {
             // otherwise, go to the next step in the pattern
             this->patternHold = 0;
             this->patternStep += 1;
-            if (this->patternStep == patterns[this->pattern].len) {
+            if (this->patternStep == sizeof(patterns[this->pattern]) + 1) {
                 this->patternStep = 0;
             }
             this->crossfadeAmount = getCrossfadeAmount(
-                color, patterns[this->pattern].colors[this->patternStep]);
+                color, patterns[this->pattern][this->patternStep]);
         }
     }
 }
 
 void LightHandler::stepModeCrossfadeAcross() {
+    // @TODO implement
 }
 
 void LightHandler::stepModeCrossfadeDown() {
+    // @TODO implement
 }
 
 void LightHandler::stepModeChaseAround() {
+    // @TODO implement
 }
 
 void LightHandler::stepModeChaseAcross() {
+    // @TODO implement
 }
 
 void LightHandler::stepModeChaseDown() {
+    // @TODO implement
 }
 
 void LightHandler::stepModeSparks() {
@@ -227,10 +215,10 @@ void LightHandler::stepModeSparks() {
         this->patternHold = 0;
         this->modeStep = 0;
     } else {
-        if (pseudorand() % 100 < SPARK_PCT) {
-            uint8_t idx = pseudorand() % patterns[this->pattern].len;
+        if (pseudorand() % 100 < SPARK_CHANCE) {
+            uint8_t idx = pseudorand() % (sizeof(patterns[this->pattern]) + 1);
             uint8_t pixel = pseudorand() % NUM_PIXELS;
-            color_t color = patterns[this->pattern].colors[idx];
+            color_t color = patterns[this->pattern][idx];
             this->strip.setPixelColor(pixel,
                                       color.red,
                                       color.green,
@@ -244,9 +232,11 @@ void LightHandler::stepModeSparks() {
 }
 
 void LightHandler::stepModeDance() {
+    // @TODO implement
 }
 
 void LightHandler::stepModeEqualizer() {
+    // @TODO implement
 }
 
 void LightHandler::stepPattern() {
@@ -259,7 +249,7 @@ void LightHandler::stepPattern() {
     // get new timings
     this->crossfadeAmount = getCrossfadeAmount(
         translateColor(this->strip.getPixelColor(0)),
-        patterns[this->pattern].colors[this->patternStep]);
+        patterns[this->pattern][this->patternStep]);
 
     // @TODO uncomment
     // setPattern(this->pattern);
@@ -277,7 +267,7 @@ void LightHandler::stepMode() {
 
     this->crossfadeAmount = getCrossfadeAmount(
         translateColor(this->strip.getPixelColor(0)),
-        patterns[this->pattern].colors[this->patternStep]);
+        patterns[this->pattern][this->patternStep]);
 
     // @TODO uncomment
     // setMode(this->mode);
@@ -326,14 +316,10 @@ color_t stepColor(color_t current, color_t target, crossfade_t amount) {
 }
 
 uint8_t stepChannel(uint8_t current, uint8_t target, uint8_t amount) {
-    if (current < target) {
-        if (current + amount < target) {  // increment up
-            return current + amount;
-        }
-    } else if (current > target) {
-        if (current - amount > target) {  // increment down
-            return current - amount;
-        }
+    if (current < target && current + amount < target) {  // increment up
+        return current + amount;
+    } else if (current > target && current - amount > target) {  // increment down
+        return current - amount;
     }
     return target;
 }
@@ -341,8 +327,12 @@ uint8_t stepChannel(uint8_t current, uint8_t target, uint8_t amount) {
 crossfade_t getCrossfadeAmount(color_t current, color_t target) {
     // add one to each to make sure we ner get in a stuck state
     return crossfade_t {
-        abs(current.red - target.red) / CROSSFADE_STEPS + 1,
-        abs(current.green - target.green) / CROSSFADE_STEPS + 1,
-        abs(current.blue - target.blue) / CROSSFADE_STEPS + 1
+        getCrossfadeChannel(current.red, target.red),
+        getCrossfadeChannel(current.green, target.green),
+        getCrossfadeChannel(current.blue, target.blue)
     };
+}
+
+uint8_t getCrossfadeChannel(uint8_t current, uint8_t target) {
+    return abs(current - target) / CROSSFADE_STEPS + 1;
 }

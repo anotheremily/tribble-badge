@@ -117,7 +117,7 @@
 #define MODE_EQUALIZER 17
 
 // Mode specific constants
-#define SPARK_PCT 30  // chance of a spark firing
+#define SPARK_CHANCE 30  // chance of a spark firing - out of 255
 
 
 #endif

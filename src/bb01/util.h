@@ -11,6 +11,6 @@
  * Return semi-random number
  * @return uint8_t random number
  */
-unsigned int pseudorand();
+unsigned char pseudorand();
 
 #endif

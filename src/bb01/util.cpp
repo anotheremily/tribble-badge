@@ -9,8 +9,8 @@
 #endif
 
 // https://stackoverflow.com/questions/9492581
-unsigned int pseudorand() {
+unsigned char pseudorand() {
     static unsigned int seed = RAND_SEED;
     seed = (RAND_A * seed + RAND_C) % RAND_M;
-    return seed % 255;
+    return seed % 100;
 }
