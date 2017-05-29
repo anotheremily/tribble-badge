@@ -9,30 +9,14 @@
 #include "Arduino.h"
 #include "constants.h"
 
-class Button {
-public:
-    Button(uint8_t);
-    ~Button();
-
-    uint8_t poll();
-    bool isPressed();
-private:
+typedef struct {
     uint8_t pin;
-    uint8_t lastButtonState;
-    uint8_t buttonState;
-    uint16_t lastDebounceTime;
-};
-
-class ButtonHandler {
-public:
-    ButtonHandler();
-    ~ButtonHandler();
-
-    uint8_t poll();
-private:
-    Button *buttonOne;
-    Button *buttonTwo;
     uint8_t lastState;
-};
+    uint8_t state;
+    uint16_t lastDebounceTime;
+} button_t;
+
+button_t createButton(uint8_t);
+void pollButton(button_t);
 
 #endif
