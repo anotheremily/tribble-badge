@@ -26,8 +26,8 @@
 #define BUTTON_1_PIN 2
 #define BUTTON_2_PIN 3
 
-#define BUTTON_OFF 0
-#define BUTTON_ON 1
+#define BUTTON_OFF LOW
+#define BUTTON_ON HIGH
 
 #define DEBOUNCE_DELAY 40
 
