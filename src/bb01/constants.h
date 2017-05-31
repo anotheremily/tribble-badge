@@ -69,19 +69,6 @@
 #define LED_ROWS 5
 #define LED_COLS 6
 
-#define ROW_1 [3, 10]
-#define ROW_2 [4, 2, 11, 9]
-#define ROW_3 [5, 13]
-#define ROW_4 [5, 1, 12, 8]
-#define ROW_5 [0, 7]
-
-#define COL_1 [4, 5]
-#define COL_2 [3, 5, 0]
-#define COL_3 [2, 1]
-#define COL_4 [11, 12]
-#define COL_5 [10, 13, 7]
-#define COL_6 [9, 8]
-
 // Patterns
 #define ACTIVE_PATTERNS 6  // 12
 
@@ -103,6 +90,7 @@
 // Modes
 #define ACTIVE_MODES 3  // 8
 
+#define MODE_CHASE_ACROSS 3
 #define MODE_SPARKS 0
 #define MODE_BLINK 1
 #define MODE_CROSSFADE_ALL 2

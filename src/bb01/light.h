@@ -99,6 +99,7 @@ private:
 
     uint8_t pattern;
     uint8_t mode;
+    uint8_t modeDir;
     uint8_t modeStep;  // used by modes to keep track of state
     uint8_t patternStep;  // used by modes to keep track of state
     uint8_t patternHold;
@@ -107,14 +108,10 @@ private:
 
     // mode step functions
     void stepModeBlink();
-    void stepModeCrossfadeAll();
+    void stepModeCrossfade(uint8_t);
     void stepModeSparks();
 
-    void stepModeCrossfadeAcross();
-    void stepModeCrossfadeDown();
-    void stepModeChaseAround();
-    void stepModeChaseAcross();
-    void stepModeChaseDown();
+    void stepModeChase(uint8_t);
     void stepModeDance();
     void stepModeEqualizer();
 };

@@ -9,6 +9,29 @@
 
 #include "light.h"
 
+// Row, column definitions
+//     0   1   2   3   4   5
+//     ----------------------
+// 0       03          10
+// 1   04      02  11      09
+// 2       05          13
+// 3   05      01  12      08
+// 4       00          07
+const uint8_t row_1[] = {3, 10};
+const uint8_t row_2[] = {4, 2, 11, 9};
+const uint8_t row_3[] = {5, 13};
+const uint8_t row_4[] = {5, 1, 12, 8};
+const uint8_t row_5[] = {0, 7};
+const uint8_t *rows[] = {row_1, row_2, row_3, row_4, row_5};
+
+const uint8_t col_1[] = {4, 5};
+const uint8_t col_2[] = {3, 5, 0};
+const uint8_t col_3[] = {2, 1};
+const uint8_t col_4[] = {11, 12};
+const uint8_t col_5[] = {10, 13, 7};
+const uint8_t col_6[] = {9, 8};
+const uint8_t *cols[] = {col_1, col_2, col_3, col_4, col_5, col_6};
+
 const color_t colorOff = {CHANNEL_OFF, CHANNEL_OFF, CHANNEL_OFF};
 
 const color_t color_rgb[] = {
@@ -85,6 +108,7 @@ LightHandler::LightHandler() {
     this->patternStep = 0;
     this->modeStep = 0;
     this->patternHold = 0;
+    this->modeDir = 0;
 
     this->crossfadeAmount = getCrossfadeAmount(
         translateColor(this->strip.getPixelColor(0)),
@@ -97,18 +121,14 @@ LightHandler::~LightHandler() {
 void LightHandler::step() {
     if (this->mode == MODE_BLINK) {
         this->stepModeBlink();
-    } else if (this->mode == MODE_CROSSFADE_ALL) {
-        this->stepModeCrossfadeAll();
-    } else if (this->mode == MODE_CROSSFADE_ACROSS) {
-        this->stepModeCrossfadeAcross();
-    } else if (this->mode == MODE_CROSSFADE_DOWN) {
-        this->stepModeCrossfadeDown();
-    } else if (this->mode == MODE_CHASE_AROUND) {
-        this->stepModeChaseAround();
-    } else if (this->mode == MODE_CHASE_ACROSS) {
-        this->stepModeChaseAcross();
-    } else if (this->mode == MODE_CHASE_DOWN) {
-        this->stepModeChaseDown();
+    } else if (this->mode == MODE_CROSSFADE_ALL ||
+            this->mode == MODE_CROSSFADE_ACROSS ||
+            this->mode == MODE_CROSSFADE_DOWN) {
+        this->stepModeCrossfade(this->mode);
+    } else if (this->mode == MODE_CHASE_AROUND ||
+            this->mode == MODE_CHASE_ACROSS ||
+            this->mode == MODE_CHASE_DOWN) {
+        this->stepModeChase(this->mode);
     } else if (this->mode == MODE_SPARKS) {
         this->stepModeSparks();
     } else if (this->mode == MODE_DANCE) {
@@ -148,7 +168,7 @@ void LightHandler::stepModeBlink() {
             } else {
                 this->modeStep = 0;
                 this->patternStep += 1;
-                if (this->patternStep == sizeof(patterns[this->pattern]) + 1) {
+                if (this->patternStep == sizeof(patterns[this->pattern])) {
                     this->patternStep = 0;
                 }
                 target = patterns[this->pattern][this->patternStep];
@@ -158,7 +178,7 @@ void LightHandler::stepModeBlink() {
     }
 }
 
-void LightHandler::stepModeCrossfadeAll() {
+void LightHandler::stepModeCrossfade(uint8_t variant) {
     // for crossfade, everything's the same, so no reason to step each one
     color_t target = patterns[this->pattern][this->patternStep];
     color_t color = translateColor(this->strip.getPixelColor(0));
@@ -176,7 +196,7 @@ void LightHandler::stepModeCrossfadeAll() {
             // otherwise, go to the next step in the pattern
             this->patternHold = 0;
             this->patternStep += 1;
-            if (this->patternStep == sizeof(patterns[this->pattern]) + 1) {
+            if (this->patternStep == sizeof(patterns[this->pattern])) {
                 this->patternStep = 0;
             }
             this->crossfadeAmount = getCrossfadeAmount(
@@ -185,23 +205,36 @@ void LightHandler::stepModeCrossfadeAll() {
     }
 }
 
-void LightHandler::stepModeCrossfadeAcross() {
-    // @TODO implement
-}
+void LightHandler::stepModeChase(uint8_t variant) {
+    uint8_t *block, *prevBlock;
 
-void LightHandler::stepModeCrossfadeDown() {
-    // @TODO implement
-}
+    // if (variant == MODE_CHASE_ACROSS) {
+        prevBlock = cols[this->modeStep];
+        this->modeStep = this->modeDir == 0 ? this->modeStep + 1 : this->modeStep - 1;
+        if (this->modeStep + 1 == LED_COLS) {
+            this->modeDir = 1;
+        } else if (this->modeStep == 0) {
+            this->modeDir = 0;
+            this->patternStep += 1;
+            if (this->patternStep == sizeof(patterns[this->pattern])) {
+                this->patternStep = 0;
+            }
+        }
+        block = cols[this->modeStep];
+    // }
 
-void LightHandler::stepModeChaseAround() {
-    // @TODO implement
-}
+    // for (uint8_t i = 0; i < sizeof(prevBlock); i += 1) {
+    //     this->strip.setPixelColor(prevBlock[i], 0, 0, 0, 0);
+    // }
+    for (uint8_t i = 0; i < sizeof(block); i += 1) {
+        this->strip.setPixelColor(block[i],
+                                  patterns[this->pattern][this->patternStep].red,
+                                  patterns[this->pattern][this->patternStep].green,
+                                  patterns[this->pattern][this->patternStep].blue,
+                                  0);
+    }
 
-void LightHandler::stepModeChaseAcross() {
-    // @TODO implement
-}
 
-void LightHandler::stepModeChaseDown() {
     // @TODO implement
 }
 
@@ -257,6 +290,7 @@ void LightHandler::stepMode() {
     // reset state
     this->patternStep = 0;
     this->modeStep = 0;
+    this->modeDir = 0;
 
     this->crossfadeAmount = getCrossfadeAmount(
         translateColor(this->strip.getPixelColor(0)),
