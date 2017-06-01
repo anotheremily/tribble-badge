@@ -168,7 +168,7 @@ void LightHandler::stepModeBlink() {
             } else {
                 this->modeStep = 0;
                 this->patternStep += 1;
-                if (this->patternStep == sizeof(patterns[this->pattern])) {
+                if (this->patternStep == sizeof(patterns[this->pattern]) + 1) {
                     this->patternStep = 0;
                 }
                 target = patterns[this->pattern][this->patternStep];
@@ -196,7 +196,7 @@ void LightHandler::stepModeCrossfade(uint8_t variant) {
             // otherwise, go to the next step in the pattern
             this->patternHold = 0;
             this->patternStep += 1;
-            if (this->patternStep == sizeof(patterns[this->pattern])) {
+            if (this->patternStep == sizeof(patterns[this->pattern]) + 1) {
                 this->patternStep = 0;
             }
             this->crossfadeAmount = getCrossfadeAmount(
@@ -216,7 +216,7 @@ void LightHandler::stepModeChase(uint8_t variant) {
         } else if (this->modeStep == 0) {
             this->modeDir = 0;
             this->patternStep += 1;
-            if (this->patternStep == sizeof(patterns[this->pattern])) {
+            if (this->patternStep == sizeof(patterns[this->pattern]) + 1) {
                 this->patternStep = 0;
             }
         }
