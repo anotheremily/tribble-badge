@@ -1,44 +1,40 @@
-# BB01 Badge Instructions
+# triBB01 Badge Notes
+You have one of the first Beyond Binaries badges!
 
-## Welcome
-You have one of the first Beyond Binaries badges! We call it BB01.
+We call it triBB01.
 
-We had a few objectives in mind when making this badge.
-- To have a badge of our own
-- To give us something to have fun with
-- To look great
-- To be useful to some extent after DEFCON
-- To work (most important!)
+## Styles
+As you may have noticed, BB01 comes in a few styles. Pick the one you like most and enjoy! While the colors combinations are based on
 
-## Guide
+This isn’t just skin deep and actually affects the functionality of each badge. You can unlock more features by pairing your badge with badges of other types.
 
-### Styles
-As you may have noticed, BB01 comes in a few styles. This isn’t just skin deep and actually affects the functionality of each badge. You can unlock more features by pairing your badge with badges of other types.
-
-### Buttons
+## Buttons
 - Button 1 - Cycle patterns
-- Button 2 -
-- Button 3 -
-- Button 4 -
+- Button 2 - Cycle color modes
+- Button 1 & 2 - Enter config mode
 
-### Modes
-The Queercon folks always have camos, and we have some similar patterns. You’ll have a few activated by default, and more can be unlocked if you’re crafty enough!
+In config mode:
+- Button 1 - Toggle Brightness (LOW - MEDIUM - HIGH - MAX)*
+- Button 2 - Enter 4 Digit PIN (Locks button functions for next 4 presses.)
+- Button 1 & 2 - Leave config mode
 
-### Pairing
+_* Adjust brightness at your own risk. The max setting will literally sear your all of your eyeballs._
+
+## Lights
+The Queercon folks always have camos, and we have some similar patterns. You’ll have a few activated by default, and more can be unlocked if you’re crafty enough! In addition to this, we have a few different color transitions for you to enjoy!
+
+## Pairing
 While there’s no wireless on this year’s badge (hopefully next year!), there is a pairing mode. Pairing with different types of badges will unlock more features (pairing with badges of the same style will too depending on how many you’ve paired with.)
 
-### Extra!
-Tip: Don’t judge my soldering!
+## Extra!
+_Don’t judge my soldering!_
 
-There’s one or more undocumented feature in this badge, plus a few things to explore. The first clue is at https://emily.cat/badge.
+All the insides can be repurposed after the conference! In addition to the NeoPixel Jewels on the outside, on the inside you’ll find a Trinket Mini 5V and some other goodies. The Trinket and Jewels are purposefully not soldered onto the board to make it easy to remove and use on your other projects! Of course if you want to leave the badge as is too, that's fine. Or play around with the source and add your own features!
 
-All the insides can be repurposed after the conference! In addition to the NeoPixel Jewels on the outside, on the inside you’ll find a Trinket Mini 5V and some other goodies. The Trinket is purposefully not soldered onto the board to make it easy to remove and use on your other projects!
+If you do want to hack on the hardware or software, these links might be handy.
 
-## Credits & Thanks
-- Avi - Concepting, art direction
-- Emily - Concepting, programming, sewing, soldering, testing
-- Adafruit for making awesome things!
+- Source Code: https://emily.cat/badge/bb01/package.tar.gz
+- Trinket Info: https://learn.adafruit.com/introducing-trinket/introduction
+- Neopixel Info: https://learn.adafruit.com/adafruit-neopixel-uberguide
 
-## Links
-https://learn.adafruit.com/introducing-trinket/introduction
-https://learn.adafruit.com/adafruit-neopixel-uberguide/downloads
+Special thanks to Avi for help concepting!
