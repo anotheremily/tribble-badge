@@ -29,3 +29,13 @@ schematics/bb01/*.csv
 
 a.out
 test.cpp
+
+# web
+secrets.sh
+secrets.py
+
+web/web/build/assets/app.js
+web/web/build/assets/app.css
+web/web/build/assets/*.eot
+web/web/build/assets/*.woff
+web/web/build/assets/*.ttf
