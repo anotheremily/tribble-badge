@@ -2,7 +2,7 @@
 #include "button.h"
 #include "light.h"
 #include "store.h"
-#include "pairing.h"
+
 
 LightHandler *lights;
 ButtonHandler *buttons;
