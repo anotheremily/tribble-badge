@@ -24,8 +24,9 @@ schematics/bb01/*.dsn
 schematics/bb01/*.ses
 
 # Exported BOM files
-schematics/bb01/*.xml
-schematics/bb01/*.csv
+schematics/*.xml
+schematics/*.csv
+schematics/export/
 
 a.out
 test.cpp
