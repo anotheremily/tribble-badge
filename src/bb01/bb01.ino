@@ -17,8 +17,6 @@ void setup() {
  * Main event loop.
  *
  * Poll for button input and respond accordingly
- * Check for pairing
- * @TODO microphone sample?
  * Update lights
  */
 void loop() {
@@ -40,19 +38,6 @@ void loop() {
         default:
             break;
     }
-
-    // Pairing
-    // if (isConnected()) {
-    //     if (attemptPairing()) {
-    //         // @TODO incr level
-    //         // @TODO check for new unlocks
-    //         // @TODO lights - happy pattern
-    //     } else {
-    //         // @TODO lights - sad pattern
-    //     }
-    // }
-
-    // @TODO microphone
 
     // update lights
     lights->step();
