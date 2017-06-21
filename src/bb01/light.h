@@ -6,7 +6,7 @@
 #ifndef LIGHT_H
 #define LIGHT_H
 
-#include "Adafruit_NeoPixel.h"
+#include "neopixel.h"
 #include "constants.h"
 #include "store.h"
 #include "util.h"
