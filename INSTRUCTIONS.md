@@ -24,9 +24,11 @@ All the insides can be repurposed after the conference! In addition to the NeoPi
 
 If you want to hack on the hardware or software, these links might be handy.
 
-- Source Code: https://tribb01.party/res/bb01.tar.gz
+- Source Code: https://tribb01.party/res/bb01.tar.gz*
 - Trinket Info: https://learn.adafruit.com/introducing-trinket/introduction
 - Neopixel Info: https://learn.adafruit.com/adafruit-neopixel-uberguide
+
+_* triBB01 uses a modified version of the Neopixel library to save space. Not all functionality is present._
 
 ## The End
 Special thanks to Avi for help concepting and to Aaron for support and unknowingly feeding me ideas on the challenge badge.
