@@ -50,20 +50,6 @@ Adafruit_NeoPixel::Adafruit_NeoPixel(uint16_t n, uint8_t p, neoPixelType t) :
   setPin(p);
 }
 
-// via Michael Vogt/neophob: empty constructor is used when strand length
-// isn't known at compile-time; situations where program config might be
-// read from internal flash memory or an SD card, or arrive via serial
-// command.  If using this constructor, MUST follow up with updateType(),
-// updateLength(), etc. to establish the strand type, length and pin number!
-Adafruit_NeoPixel::Adafruit_NeoPixel() :
-#ifdef NEO_KHZ400
-  is800KHz(true),
-#endif
-  begun(false), numLEDs(0), numBytes(0), pin(-1), brightness(0), pixels(NULL),
-  rOffset(1), gOffset(0), bOffset(2), wOffset(1), endTime(0)
-{
-}
-
 Adafruit_NeoPixel::~Adafruit_NeoPixel() {
   if(pixels)   free(pixels);
   if(pin >= 0) pinMode(pin, INPUT);
@@ -1863,23 +1849,12 @@ void Adafruit_NeoPixel::setPixelColor(
 uint32_t Adafruit_NeoPixel::getPixelColor(uint16_t n) const {
   if(n >= numLEDs) return 0; // Out of bounds, return no color.
 
-  uint8_t *p;
-
-  if(wOffset == rOffset) { // Is RGB-type device
-    p = &pixels[n * 3];
-
-    // No brightness adjustment has been made -- return 'raw' color
-    return ((uint32_t)p[rOffset] << 16) |
-           ((uint32_t)p[gOffset] <<  8) |
-            (uint32_t)p[bOffset];
-  } else {                 // Is RGBW-type device
-    p = &pixels[n * 4];
-    // Return raw color
-    return ((uint32_t)p[wOffset] << 24) |
-           ((uint32_t)p[rOffset] << 16) |
-           ((uint32_t)p[gOffset] <<  8) |
-            (uint32_t)p[bOffset];
-  }
+  uint8_t *p = &pixels[n * 4];
+  // Return raw color
+  return ((uint32_t)p[wOffset] << 24) |
+         ((uint32_t)p[rOffset] << 16) |
+         ((uint32_t)p[gOffset] <<  8) |
+          (uint32_t)p[bOffset];
 }
 
 void Adafruit_NeoPixel::clear() {

@@ -119,34 +119,19 @@ class Adafruit_NeoPixel {
 
   // Constructor: number of LEDs, pin number, LED type
   Adafruit_NeoPixel(uint16_t n, uint8_t p=6, neoPixelType t=NEO_GRB + NEO_KHZ800);
-  Adafruit_NeoPixel(void);
   ~Adafruit_NeoPixel();
 
   void
     begin(void),
     show(void),
     setPin(uint8_t p),
-    // setPixelColor(uint16_t n, uint8_t r, uint8_t g, uint8_t b),
     setPixelColor(uint16_t n, uint8_t r, uint8_t g, uint8_t b, uint8_t w),
-    // setPixelColor(uint16_t n, uint32_t c),
-    // setBrightness(uint8_t),
     clear(),
     updateLength(uint16_t n),
     updateType(neoPixelType t);
-  // uint8_t
-  //  *getPixels(void) const,
-  //   getBrightness(void) const;
-  int8_t
-    getPin(void) { return pin; };
-  // uint16_t
-  //   numPixels(void) const;
-  // static uint32_t
-  //   Color(uint8_t r, uint8_t g, uint8_t b),
-  //   Color(uint8_t r, uint8_t g, uint8_t b, uint8_t w);
-  uint32_t
-    getPixelColor(uint16_t n) const;
-  inline bool
-    canShow(void) { return (micros() - endTime) >= 300L; }
+    int8_t getPin(void) { return pin; };
+    uint32_t getPixelColor(uint16_t n) const;
+  inline bool canShow(void) { return (micros() - endTime) >= 300L; }
 
  private:
 

@@ -113,9 +113,9 @@ const color_t *patterns[] = {
 };
 
 LightHandler::LightHandler() {
-    this->strip = Adafruit_NeoPixel(NUM_PIXELS, LED_PIN, NEO_GRBW + NEO_KHZ800);  // or NEO_GRBW
-    this->strip.begin();
-    // this->strip.setBrightness(BRIGHTNESS);
+    this->strip = new Adafruit_NeoPixel(NUM_PIXELS, LED_PIN, NEO_GRBW + NEO_KHZ800);  // or NEO_GRBW
+    this->strip->begin();
+    // this->strip->setBrightness(BRIGHTNESS);
 
     // restore pattern and mode from eeprom
     this->brightness = 255; // storeGetBrightness();
@@ -128,7 +128,7 @@ LightHandler::LightHandler() {
     this->modeDir = 0;
 
     this->crossfadeAmount = getCrossfadeAmount(
-        translateColor(this->strip.getPixelColor(0)),
+        translateColor(this->strip->getPixelColor(0)),
         patterns[this->pattern][this->patternStep]);
 }
 
@@ -149,7 +149,7 @@ void LightHandler::step() {
     } else if (this->mode == MODE_SPARKS) {
         this->stepModeSparks();
     }
-    this->strip.show();
+    this->strip->show();
 }
 
 void LightHandler::stepModeBlink() {
@@ -159,11 +159,11 @@ void LightHandler::stepModeBlink() {
         : patterns[this->pattern][this->patternStep];
 
     color_t color = stepColor(
-        translateColor(this->strip.getPixelColor(0)),
+        translateColor(this->strip->getPixelColor(0)),
         target, this->crossfadeAmount);
 
     for (uint8_t i = 0; i < NUM_PIXELS; i += 1) {
-        this->strip.setPixelColor(i, color.red, color.green, color.blue, 0);
+        this->strip->setPixelColor(i, color.red, color.green, color.blue, 0);
     }
 
     // go to next color at the end of the pattern (or off state if in between)
@@ -194,11 +194,11 @@ void LightHandler::stepModeBlink() {
 void LightHandler::stepModeCrossfade(uint8_t variant) {
     // for crossfade, everything's the same, so no reason to step each one
     color_t target = patterns[this->pattern][this->patternStep];
-    color_t color = translateColor(this->strip.getPixelColor(0));
+    color_t color = translateColor(this->strip->getPixelColor(0));
     color = stepColor(color, target, this->crossfadeAmount);
 
     for (uint8_t i = 0; i < NUM_PIXELS; i += 1) {
-        this->strip.setPixelColor(i, color.red, color.green, color.blue, 0);
+        this->strip->setPixelColor(i, color.red, color.green, color.blue, 0);
     }
 
     if (isEqual(color, target)) {
@@ -238,10 +238,10 @@ void LightHandler::stepModeChase(uint8_t variant) {
     // }
 
     // for (uint8_t i = 0; i < sizeof(prevBlock); i += 1) {
-    //     this->strip.setPixelColor(prevBlock[i], 0, 0, 0, 0);
+    //     this->strip->setPixelColor(prevBlock[i], 0, 0, 0, 0);
     // }
     for (uint8_t i = 0; i < sizeof(block); i += 1) {
-        this->strip.setPixelColor(block[i],
+        this->strip->setPixelColor(block[i],
                                   patterns[this->pattern][this->patternStep].red,
                                   patterns[this->pattern][this->patternStep].green,
                                   patterns[this->pattern][this->patternStep].blue,
@@ -255,13 +255,13 @@ void LightHandler::stepModeChase(uint8_t variant) {
 void LightHandler::stepModeSparks() {
     if (this->modeStep == 1) {
         // if already on, turn off or hold
-        this->strip.setPixelColor(this->patternStep, 0, 0, 0, 0);
+        this->strip->setPixelColor(this->patternStep, 0, 0, 0, 0);
         this->modeStep = 0;
     } else {
         if (pseudorand() % 100 < SPARK_CHANCE) {
             uint8_t idx = pseudorand() % (sizeof(patterns[this->pattern]) + 1);
             this->patternStep = pseudorand() % NUM_PIXELS;
-            this->strip.setPixelColor(this->patternStep,
+            this->strip->setPixelColor(this->patternStep,
                                       patterns[this->pattern][idx].red,
                                       patterns[this->pattern][idx].green,
                                       patterns[this->pattern][idx].blue,
@@ -280,7 +280,7 @@ void LightHandler::stepPattern() {
 
     // get new timings
     this->crossfadeAmount = getCrossfadeAmount(
-        translateColor(this->strip.getPixelColor(0)),
+        translateColor(this->strip->getPixelColor(0)),
         patterns[this->pattern][this->patternStep]);
 
     // @TODO uncomment
@@ -299,7 +299,7 @@ void LightHandler::stepMode() {
     this->modeDir = 0;
 
     this->crossfadeAmount = getCrossfadeAmount(
-        translateColor(this->strip.getPixelColor(0)),
+        translateColor(this->strip->getPixelColor(0)),
         patterns[this->pattern][this->patternStep]);
 
     // @TODO uncomment
@@ -318,18 +318,18 @@ void LightHandler::stepBrightness() {
 
 void LightHandler::clear() {
   // for (uint8_t p = NUM_PIXELS; p > 0; p -= 1) {
-  //   this->strip.setPixelColor(p, 0, 0, 0, 0);
+  //   this->strip->setPixelColor(p, 0, 0, 0, 0);
   // }
-  this->strip.clear();
-  // this->strip.show();
+  this->strip->clear();
+  // this->strip->show();
 }
 
 // void LightHandler::debug() {
 //
 //     for (uint8_t p = NUM_PIXELS; p > 0; p -= 1) {
 //         for (uint8_t i = 0; i < 255; i += 1) {
-//             this->strip.setPixelColor(p - 1, i, i, i, 0);
-//             this->strip.show();
+//             this->strip->setPixelColor(p - 1, i, i, i, 0);
+//             this->strip->show();
 //             delay(1);
 //         }
 //     }
@@ -338,9 +338,9 @@ void LightHandler::clear() {
 //
 //     for (uint8_t i = 255; i > 0; i -= 1) {
 //         for (uint8_t p = 0; p < NUM_PIXELS; p += 1) {
-//             this->strip.setPixelColor(p, i - 1, i - 1, i - 1, 0);
+//             this->strip->setPixelColor(p, i - 1, i - 1, i - 1, 0);
 //         }
-//         this->strip.show();
+//         this->strip->show();
 //     }
 // }
 

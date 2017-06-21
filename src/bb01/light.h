@@ -100,7 +100,7 @@ public:
      */
     // void debug();
 private:
-    Adafruit_NeoPixel strip;
+    Adafruit_NeoPixel *strip;
 
     uint8_t brightness;
     uint8_t pattern;
