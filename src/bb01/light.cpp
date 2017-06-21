@@ -58,7 +58,7 @@ const color_t color_trans[] = {
 };
 
 const color_t color_genderqueer[] = {
-	{201, 138, 255},
+	  {201, 138, 255},
     {255, 255, 255},
     {80, 150, 85}
 };
@@ -75,12 +75,29 @@ const color_t color_pansexual[] = {
     {110, 186, 255}
 };
 
-// const color_t color_nonbinary[] = {};
-// const color_t color_intersex[] = {};
-// const color_t color_asexual[] = {};
-// const color_t color_ally[] = {};
-// const color_t color_leather[] = {};
-// const color_t color_bear[] = {};
+const color_t color_nonbinary[] = {
+  {255, 255, 255},
+  {255, 255, 255},
+  {255, 255, 255},
+};
+
+const color_t color_intersex[] = {
+  {255, 255, 255},
+  {255, 255, 255},
+  {255, 255, 255},
+};
+
+const color_t color_asexual[] = {
+  {255, 255, 255},
+  {255, 255, 255},
+  {255, 255, 255},
+};
+
+const color_t color_ally[] = {
+  {255, 255, 255},
+  {255, 255, 255},
+  {255, 255, 255},
+};
 
 const color_t *patterns[] = {
     color_rgb,
@@ -89,12 +106,10 @@ const color_t *patterns[] = {
     color_genderqueer,
     color_bisexual,
     color_pansexual,
-    // color_nonbinary,
-    // color_intersex,
-    // color_asexual
-    // color_ally
-    // color_leather
-    // color_bear
+    color_nonbinary,
+    color_intersex,
+    color_asexual,
+    color_ally
 };
 
 LightHandler::LightHandler() {
