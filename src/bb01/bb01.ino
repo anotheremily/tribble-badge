@@ -35,4 +35,5 @@ void loop() {
     // update lights
     lights->step();
     delay(50); // temp
+    delay(LOOP_DELAY); // delay before next iteration
 }

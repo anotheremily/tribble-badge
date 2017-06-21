@@ -10,7 +10,7 @@
 // #define TARGET_ARDUINO  // for debugging with serial
 
 // Loop Constants
-#define LOOP_DELAY 100  // ms
+#define LOOP_DELAY 50  // ms
 
 #define RAND_SEED 123456789
 #define RAND_A 1103515245
