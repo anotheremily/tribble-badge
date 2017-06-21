@@ -115,7 +115,7 @@ typedef uint8_t  neoPixelType;
 
 class Adafruit_NeoPixel {
 
- public:
+public:
 
   // Constructor: number of LEDs, pin number, LED type
   Adafruit_NeoPixel(uint16_t n, uint8_t p=6, neoPixelType t=NEO_GRB + NEO_KHZ800);
@@ -129,11 +129,11 @@ class Adafruit_NeoPixel {
     clear(),
     updateLength(uint16_t n),
     updateType(neoPixelType t);
-    int8_t getPin(void) { return pin; };
-    uint32_t getPixelColor(uint16_t n) const;
+  int8_t getPin(void) { return pin; };
+  uint32_t getPixelColor(uint16_t n) const;
   inline bool canShow(void) { return (micros() - endTime) >= 300L; }
 
- private:
+private:
 
   boolean
 #ifdef NEO_KHZ400  // If 400 KHz NeoPixel support enabled...

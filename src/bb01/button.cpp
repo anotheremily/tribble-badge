@@ -43,6 +43,7 @@ bool Button::maybePressed() {
     return this->prevState[1] == HIGH ? true : false;
 }
 
+
 ButtonHandler::ButtonHandler() {
     this->buttonOne = new Button(BUTTON_1);
     this->buttonTwo = new Button(BUTTON_2);

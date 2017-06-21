@@ -115,9 +115,8 @@ private:
     // mode step functions
     void stepModeBlink();
     void stepModeCrossfade(uint8_t);
-    void stepModeSparks();
-
     void stepModeChase(uint8_t);
+    void stepModeSparks();
 
     void clear();
 };

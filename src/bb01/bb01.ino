@@ -13,6 +13,7 @@ void setup() {
     // storeInit(0);
 }
 
+
 /**
  * Main event loop.
  *
@@ -32,8 +33,6 @@ void loop() {
         lights->stepBrightness();
     }
 
-    // update lights
-    lights->step();
-    delay(50); // temp
+    lights->step();  // update lights
     delay(LOOP_DELAY); // delay before next iteration
 }
