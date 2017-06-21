@@ -120,6 +120,7 @@ LightHandler::LightHandler() {
     // restore pattern and mode from eeprom
     this->pattern = 0; // getPattern();
     this->mode = 0; // getMode();
+    this->brightness = 255; // storeGetBrightness();
     this->patternStep = 0;
     this->modeStep = 0;
     this->patternHold = 0;
@@ -315,25 +316,40 @@ void LightHandler::stepMode() {
     // setMode(this->mode);
 }
 
-void LightHandler::debug() {
-    //
-    // for (uint8_t p = NUM_PIXELS; p > 0; p -= 1) {
-    //     for (uint8_t i = 0; i < 255; i += 1) {
-    //         this->strip.setPixelColor(p - 1, i, i, i, 0);
-    //         this->strip.show();
-    //         delay(1);
-    //     }
-    // }
-    //
-    // delay(1000);
-    //
-    // for (uint8_t i = 255; i > 0; i -= 1) {
-    //     for (uint8_t p = 0; p < NUM_PIXELS; p += 1) {
-    //         this->strip.setPixelColor(p, i - 1, i - 1, i - 1, 0);
-    //     }
-    //     this->strip.show();
-    // }
+void LightHandler::stepBrightness() {
+  this->brightness += 1;
+  if (this->brightness == BRIGHTNESS_SETTINGS) {
+    this->brightness = 0;
+  }
+  // storeSetBrightness(this->brightness);
 }
+
+void LightHandler::clear() {
+  for (uint8_t p = NUM_PIXELS; p > 0; p -= 1) {
+    this->strip.setPixelColor(p, 0, 0, 0, 0);
+  }
+  this->strip.show();
+}
+
+// void LightHandler::debug() {
+//
+//     for (uint8_t p = NUM_PIXELS; p > 0; p -= 1) {
+//         for (uint8_t i = 0; i < 255; i += 1) {
+//             this->strip.setPixelColor(p - 1, i, i, i, 0);
+//             this->strip.show();
+//             delay(1);
+//         }
+//     }
+//
+//     delay(1000);
+//
+//     for (uint8_t i = 255; i > 0; i -= 1) {
+//         for (uint8_t p = 0; p < NUM_PIXELS; p += 1) {
+//             this->strip.setPixelColor(p, i - 1, i - 1, i - 1, 0);
+//         }
+//         this->strip.show();
+//     }
+// }
 
 color_t translateColor(uint32_t c32) {
     return color_t {

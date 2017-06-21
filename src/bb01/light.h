@@ -91,14 +91,21 @@ public:
     void stepMode();
 
     /**
+     * Set brightness
+     */
+    void stepBrightness();
+
+    /**
      * Debug mode for leds
      */
-    void debug();
+    // void debug();
 private:
     Adafruit_NeoPixel strip;
 
+    uint8_t brightness;
     uint8_t pattern;
     uint8_t mode;
+
     uint8_t modeDir;
     uint8_t modeStep;  // used by modes to keep track of state
     uint8_t patternStep;  // used by modes to keep track of state
