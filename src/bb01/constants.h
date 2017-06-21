@@ -26,9 +26,6 @@
 #define BUTTON_1_PIN 2
 #define BUTTON_2_PIN 3
 
-#define BUTTON_OFF LOW
-#define BUTTON_ON HIGH
-
 #define DEBOUNCE_DELAY 40
 
 // Pairing & Memory
@@ -36,14 +33,10 @@
 #define UNLOCK_FEATURES 5
 
 #define ADDRESS_BADGE_ID 0
-#define ADDRESS_LEVEL 1
-#define ADDRESS_PAIRING_COUNT  2
-#define ADDRESS_LAST_MODE 3
-#define ADDRESS_LAST_PATTERN 4
+#define ADDRESS_MODE 1
+#define ADDRESS_PATTERN 2
+#define ADDRESS_BRIGHTNESS 3
 
-#define ADDRESS_UNLOCK_START  10
-
-#define ADDRESS_PAIRING_START  100
 
 // Lights
 #define LED_PIN 0
@@ -70,7 +63,7 @@
 #define LED_COLS 6
 
 // Patterns
-#define ACTIVE_PATTERNS 6  // 12
+#define ACTIVE_PATTERNS 10
 
 #define PATTERN_RGB     0
 #define PATTERN_PRIDE    1
@@ -78,14 +71,10 @@
 #define PATTERN_GENDERQUEER 3
 #define PATTERN_BISEXUAL  4
 #define PATTERN_PANSEXUAL  5
-
-// Not implemented yet
 #define PATTERN_NONBINARY  6
 #define PATTERN_INTERSEX  7
 #define PATTERN_ASEXUAL   8
 #define PATTERN_ALLY    9
-#define PATTERN_LEATHER   10
-#define PATTERN_BEAR    11
 
 // Modes
 #define ACTIVE_MODES 3  // 8
@@ -99,10 +88,8 @@
 #define MODE_CROSSFADE_ACROSS 10
 #define MODE_CROSSFADE_DOWN 11
 #define MODE_CHASE_AROUND 12
-#define MODE_CHASE_ACROSS 13
+// #define MODE_CHASE_ACROSS 13
 #define MODE_CHASE_DOWN 14
-#define MODE_DANCE 16
-#define MODE_EQUALIZER 17
 
 // Mode specific constants
 #define SPARK_CHANCE 30  // chance of a spark firing - out of 255
