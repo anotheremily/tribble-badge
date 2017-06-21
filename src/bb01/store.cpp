@@ -29,9 +29,9 @@ void storeSetPattern(uint8_t pattern) {
 }
 
 uint8_t storeGetBrightness() {
-  return EEPROM.read(ADDRESS_BRIGHTNESS);
+    return EEPROM.read(ADDRESS_BRIGHTNESS);
 }
 
 void storeSetBrightness(uint8_t brightness) {
-  EEPROM.write(ADDRESS_BRIGHTNESS, brightness);
+    EEPROM.write(ADDRESS_BRIGHTNESS, brightness);
 }

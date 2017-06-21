@@ -58,7 +58,7 @@ const color_t color_trans[] = {
 };
 
 const color_t color_genderqueer[] = {
-	  {201, 138, 255},
+    {201, 138, 255},
     {255, 255, 255},
     {80, 150, 85}
 };
@@ -76,27 +76,27 @@ const color_t color_pansexual[] = {
 };
 
 const color_t color_nonbinary[] = {
-  {255, 255, 255},
-  {255, 255, 255},
-  {255, 255, 255},
+    {255, 255, 255},
+    {255, 255, 255},
+    {255, 255, 255},
 };
 
 const color_t color_intersex[] = {
-  {255, 255, 255},
-  {255, 255, 255},
-  {255, 255, 255},
+    {255, 255, 255},
+    {255, 255, 255},
+    {255, 255, 255},
 };
 
 const color_t color_asexual[] = {
-  {255, 255, 255},
-  {255, 255, 255},
-  {255, 255, 255},
+    {255, 255, 255},
+    {255, 255, 255},
+    {255, 255, 255},
 };
 
 const color_t color_ally[] = {
-  {255, 255, 255},
-  {255, 255, 255},
-  {255, 255, 255},
+    {255, 255, 255},
+    {255, 255, 255},
+    {255, 255, 255},
 };
 
 const color_t *patterns[] = {
@@ -309,19 +309,19 @@ void LightHandler::stepMode() {
 }
 
 void LightHandler::stepBrightness() {
-  this->brightness += 1;
-  if (this->brightness == BRIGHTNESS_SETTINGS) {
-    this->brightness = 0;
-  }
-  // storeSetBrightness(this->brightness);
+    this->brightness += 1;
+    if (this->brightness == BRIGHTNESS_SETTINGS) {
+      this->brightness = 0;
+    }
+    // storeSetBrightness(this->brightness);
 }
 
 void LightHandler::clear() {
-  // for (uint8_t p = NUM_PIXELS; p > 0; p -= 1) {
-  //   this->strip->setPixelColor(p, 0, 0, 0, 0);
-  // }
-  this->strip->clear();
-  // this->strip->show();
+    // for (uint8_t p = NUM_PIXELS; p > 0; p -= 1) {
+    //   this->strip->setPixelColor(p, 0, 0, 0, 0);
+    // }
+    this->strip->clear();
+    // this->strip->show();
 }
 
 // void LightHandler::debug() {
