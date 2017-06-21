@@ -118,9 +118,10 @@ LightHandler::LightHandler() {
     // this->strip.setBrightness(BRIGHTNESS);
 
     // restore pattern and mode from eeprom
-    this->pattern = 0; // getPattern();
-    this->mode = 0; // getMode();
     this->brightness = 255; // storeGetBrightness();
+    this->pattern = 0; // storeGetPattern();
+    this->mode = 0; // storeGetMode();
+
     this->patternStep = 0;
     this->modeStep = 0;
     this->patternHold = 0;
@@ -147,10 +148,6 @@ void LightHandler::step() {
         this->stepModeChase(this->mode);
     } else if (this->mode == MODE_SPARKS) {
         this->stepModeSparks();
-    } else if (this->mode == MODE_DANCE) {
-        this->stepModeDance();
-    } else if (this->mode == MODE_EQUALIZER) {
-        this->stepModeEqualizer();
     }
     this->strip.show();
 }
@@ -180,16 +177,16 @@ void LightHandler::stepModeBlink() {
             if (this->modeStep == 0) {
                 // blink fades to black before going to next color
                 this->modeStep = 1;
-                target = colorOff;
+                this->crossfadeAmount = getCrossfadeAmount(color, colorOff);
             } else {
                 this->modeStep = 0;
                 this->patternStep += 1;
                 if (this->patternStep == sizeof(patterns[this->pattern]) + 1) {
                     this->patternStep = 0;
                 }
-                target = patterns[this->pattern][this->patternStep];
+                this->crossfadeAmount = getCrossfadeAmount(
+                    color, patterns[this->pattern][this->patternStep]);
             }
-            this->crossfadeAmount = getCrossfadeAmount(color, target);
         }
     }
 }
@@ -204,7 +201,8 @@ void LightHandler::stepModeCrossfade(uint8_t variant) {
         this->strip.setPixelColor(i, color.red, color.green, color.blue, 0);
     }
 
-    if (isEqual(color, target)) { // if need to step pattern
+    if (isEqual(color, target)) {
+        // if need to step pattern
         if (this->patternHold < CROSSFADE_HOLD) {
             // hold color for a number of steps
             this->patternHold += 1;
@@ -273,14 +271,6 @@ void LightHandler::stepModeSparks() {
     }
 }
 
-void LightHandler::stepModeDance() {
-    // @TODO implement
-}
-
-void LightHandler::stepModeEqualizer() {
-    // @TODO implement
-}
-
 void LightHandler::stepPattern() {
     this->pattern += 1;
     if (this->pattern == ACTIVE_PATTERNS) {  // loop back around
@@ -294,7 +284,7 @@ void LightHandler::stepPattern() {
         patterns[this->pattern][this->patternStep]);
 
     // @TODO uncomment
-    // setPattern(this->pattern);
+    storeSetPattern(this->pattern);
 }
 
 void LightHandler::stepMode() {
@@ -313,7 +303,9 @@ void LightHandler::stepMode() {
         patterns[this->pattern][this->patternStep]);
 
     // @TODO uncomment
-    // setMode(this->mode);
+    storeSetMode(this->mode);
+
+    this->clear();
 }
 
 void LightHandler::stepBrightness() {
@@ -374,9 +366,14 @@ color_t stepColor(color_t current, color_t target, crossfade_t amount) {
 }
 
 uint8_t stepChannel(uint8_t current, uint8_t target, uint8_t amount) {
-    if (current < target && current + amount < target) {  // increment up
-        return current + amount;
-    } else if (current > target && current - amount > target) {  // increment down
+    // @TODO remove basics
+    int8_t diff = current - target;
+
+    if (diff > 0) {
+        if (diff > amount) {  // increment up
+            return current + amount;
+        }
+    } else if (-1 * diff < amount) {  // increment down
         return current - amount;
     }
     return target;
@@ -393,4 +390,5 @@ crossfade_t getCrossfadeAmount(color_t current, color_t target) {
 
 uint8_t getCrossfadeChannel(uint8_t current, uint8_t target) {
     return abs(current - target) / CROSSFADE_STEPS + 1;
+    // return (current > target ? current - target : target - current) / CROSSFADE_STEPS + 1;
 }

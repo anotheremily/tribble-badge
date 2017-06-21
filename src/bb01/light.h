@@ -111,7 +111,6 @@ private:
     uint8_t patternStep;  // used by modes to keep track of state
     uint8_t patternHold;
     crossfade_t crossfadeAmount;
-    // color_t[] led_targets;
 
     // mode step functions
     void stepModeBlink();
@@ -119,8 +118,8 @@ private:
     void stepModeSparks();
 
     void stepModeChase(uint8_t);
-    void stepModeDance();
-    void stepModeEqualizer();
+
+    void clear();
 };
 
 #endif
