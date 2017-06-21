@@ -24,19 +24,12 @@ void loop() {
     // Button handling - poll buttons to see if one or more is pressed
     uint8_t buttonPressed = buttons->poll();
 
-    switch (buttonPressed) {
-        case BUTTON_1:  // Button 1 press
-            lights->stepPattern();
-            break;
-        case BUTTON_2:
-            lights->stepMode();
-            break;
-        case BUTTON_1_2:
-            // lights->debug();
-            break;
-        case BUTTON_NONE:
-        default:
-            break;
+    if (buttonPressed == BUTTON_1) {
+       lights->stepPattern();
+    } else if (buttonPressed == BUTTON_2) {
+       lights->stepMode();
+    } else if (buttonPressed == BUTTON_1_2) {
+        lights->stepBrightness();
     }
 
     // update lights

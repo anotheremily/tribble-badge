@@ -11,9 +11,9 @@ Button::Button(uint8_t pin) {
     pinMode(pin, INPUT);
 
     this->pin = pin;
-    this->lastButtonState = LOW;
-    this->buttonState == LOW;
-    this->lastDebounceTime = 0;
+    this->prevState[0] = LOW;
+    this->prevState[1] = LOW;
+    this->buttonState = LOW;
 }
 
 Button::~Button() {
@@ -21,31 +21,26 @@ Button::~Button() {
 
 uint8_t Button::poll() {
     uint8_t reading = digitalRead(this->pin);
-    uint16_t ms = millis();
 
-    // check to see if you just pressed the button
-    // (i.e. the input went from LOW to HIGH),  and you've waited
-    // long enough since the last press to ignore any noise:
+    // Debounce checking 2 historical values rather than using timing
+    if (reading == this->prevState[0] &&
+        reading == this->prevState[1] &&
+        reading != this->buttonState) {
 
-    // If the switch changed, due to noise or pressing:
-    if (reading != this->lastButtonState) {
-        // reset the debouncing timer
-        this->lastDebounceTime = ms;
-    }
-
-    if ((ms - this->lastDebounceTime) > DEBOUNCE_DELAY) {
-        // whatever the reading is at, it's been there for longer
-        // than the debounce delay, so take it as the actual current state:
         this->buttonState = reading;
     }
 
-    // save the reading.  Next time through the loop,
-    // it'll be the lastButtonState:
-    this->lastButtonState = reading;
+    // Save state
+    this->prevState[1] = this->prevState[0];
+    this->prevState[0] = reading;
 }
 
 bool Button::isPressed() {
     return this->buttonState == HIGH ? true : false;
+}
+
+bool Button::maybePressed() {
+    return this->prevState[1] == HIGH ? true : false;
 }
 
 ButtonHandler::ButtonHandler() {
@@ -64,9 +59,11 @@ uint8_t ButtonHandler::poll() {
     uint8_t newState = BUTTON_NONE;
     if (this->buttonOne->isPressed() && this->buttonTwo->isPressed()) {
         newState = BUTTON_1_2;
-    } else if (this->buttonOne->isPressed()) {
+    } else if (this->buttonOne->isPressed() &&
+               !this->buttonTwo->maybePressed()) {
         newState = BUTTON_1;
-    } else if (this->buttonTwo->isPressed()) {
+    } else if (this->buttonTwo->isPressed() &&
+               !this->buttonOne->maybePressed()) {
         newState = BUTTON_2;
     }
 

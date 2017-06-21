@@ -16,11 +16,12 @@ public:
 
     uint8_t poll();
     bool isPressed();
+    bool maybePressed();
 private:
     uint8_t pin;
-    uint8_t lastButtonState;
+    uint8_t prevState[2];
     uint8_t buttonState;
-    uint16_t lastDebounceTime;
+    // uint16_t lastDebounceTime;
 };
 
 class ButtonHandler {
