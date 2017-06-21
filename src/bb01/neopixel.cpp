@@ -1846,12 +1846,6 @@ void Adafruit_NeoPixel::setPixelColor(
  uint16_t n, uint8_t r, uint8_t g, uint8_t b, uint8_t w) {
 
   if(n < numLEDs) {
-    if(brightness) { // See notes in setBrightness()
-      r = (r * brightness) >> 8;
-      g = (g * brightness) >> 8;
-      b = (b * brightness) >> 8;
-      w = (w * brightness) >> 8;
-    }
     uint8_t *p;
     if(wOffset == rOffset) { // Is an RGB-type strip
       p = &pixels[n * 3];    // 3 bytes per pixel (ignore W)
@@ -1873,37 +1867,21 @@ uint32_t Adafruit_NeoPixel::getPixelColor(uint16_t n) const {
 
   if(wOffset == rOffset) { // Is RGB-type device
     p = &pixels[n * 3];
-    if(brightness) {
-      // Stored color was decimated by setBrightness().  Returned value
-      // attempts to scale back to an approximation of the original 24-bit
-      // value used when setting the pixel color, but there will always be
-      // some error -- those bits are simply gone.  Issue is most
-      // pronounced at low brightness levels.
-      return (((uint32_t)(p[rOffset] << 8) / brightness) << 16) |
-             (((uint32_t)(p[gOffset] << 8) / brightness) <<  8) |
-             ( (uint32_t)(p[bOffset] << 8) / brightness       );
-    } else {
-      // No brightness adjustment has been made -- return 'raw' color
-      return ((uint32_t)p[rOffset] << 16) |
-             ((uint32_t)p[gOffset] <<  8) |
-              (uint32_t)p[bOffset];
-    }
+
+    // No brightness adjustment has been made -- return 'raw' color
+    return ((uint32_t)p[rOffset] << 16) |
+           ((uint32_t)p[gOffset] <<  8) |
+            (uint32_t)p[bOffset];
   } else {                 // Is RGBW-type device
     p = &pixels[n * 4];
-    if(brightness) { // Return scaled color
-      return (((uint32_t)(p[wOffset] << 8) / brightness) << 24) |
-             (((uint32_t)(p[rOffset] << 8) / brightness) << 16) |
-             (((uint32_t)(p[gOffset] << 8) / brightness) <<  8) |
-             ( (uint32_t)(p[bOffset] << 8) / brightness       );
-    } else { // Return raw color
-      return ((uint32_t)p[wOffset] << 24) |
-             ((uint32_t)p[rOffset] << 16) |
-             ((uint32_t)p[gOffset] <<  8) |
-              (uint32_t)p[bOffset];
-    }
+    // Return raw color
+    return ((uint32_t)p[wOffset] << 24) |
+           ((uint32_t)p[rOffset] << 16) |
+           ((uint32_t)p[gOffset] <<  8) |
+            (uint32_t)p[bOffset];
   }
 }
 
-// void Adafruit_NeoPixel::clear() {
-//   memset(pixels, 0, numBytes);
-// }
+void Adafruit_NeoPixel::clear() {
+  memset(pixels, 0, numBytes);
+}

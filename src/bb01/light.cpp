@@ -317,10 +317,11 @@ void LightHandler::stepBrightness() {
 }
 
 void LightHandler::clear() {
-  for (uint8_t p = NUM_PIXELS; p > 0; p -= 1) {
-    this->strip.setPixelColor(p, 0, 0, 0, 0);
-  }
-  this->strip.show();
+  // for (uint8_t p = NUM_PIXELS; p > 0; p -= 1) {
+  //   this->strip.setPixelColor(p, 0, 0, 0, 0);
+  // }
+  this->strip.clear();
+  // this->strip.show();
 }
 
 // void LightHandler::debug() {
