@@ -20,76 +20,36 @@
 void storeInit(uint8_t);
 
 /**
- * Get id of the badge
- * @return badge id
- */
-uint8_t getBadgeId();
-
-/**
- * Get id of the level
- * @return level
- */
-uint8_t getLevel();
-
-/**
- * Increase level by 1
- * @return level
- */
-uint8_t incrLevel();
-
-/**
- * Get pairing count of the badge
- * @return pairing count
- */
-uint8_t getPairingCount();
-
-/**
- * Increase pairing count by 1
- * @return pairing count
- */
-uint8_t incrPairingCount();
-
-/**
  * Get id of the last mode
  * @return mode
  */
-uint8_t getMode();
+uint8_t storeGetMode();
 
 /**
  * Set mode
  */
-void setMode(uint8_t);
+void storeSetMode(uint8_t);
 
 /**
  * Get id of the pattern
  * @return pattern
  */
-uint8_t getPattern();
+uint8_t storeGetPattern();
 
 /**
  * Store pattern
  */
-void setPattern(uint8_t);
+void storeSetPattern(uint8_t);
 
 /**
- * Check if feature i is unlocked
- * @param uint8_t feature id
- * @return bool is unlocked
+ * Get current brightness value
+ * @return brightness (0-255)
  */
-bool isUnlocked(uint8_t);
+uint8_t storeGetBrightness();
 
 /**
- * Check if badge is paired with connected badge
- * @param uint8_t ext badge id
- * @return bool is paired
+ * Set brightness
  */
-bool isPaired(uint8_t);
-
-/**
- * Sets pairing
- * @param uint8_t ext badge id
- * @return bool is paired
- */
-bool setPaired(uint8_t);
+void storeSetBrightness(uint8_t);
 
 #endif
