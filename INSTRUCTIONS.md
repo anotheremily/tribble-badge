@@ -33,9 +33,10 @@ _* triBB01 uses a modified version of the Neopixel library to save space. Not al
 ## The End
 Special thanks to Avi for help concepting and to Aaron for support and unknowingly feeding me ideas on the challenge badge.
 
-If you want to support the development of this badge and future badges, feel free to contribute to the cause.
+If you want to support the development of this badge and future badges, feel free to contribute.
 
 btc: 1HG16kFLoJVEfGiuuKssq8b5Cd61zvGaA2
-xmr: 48PXmaSsbmChX4iECktnF59UB3W3iFJsa2NCxWFbF7EKMKCZhNbbkjPSUFqCwh6ySg73tdtcJCCVN23K1gXxP1WP2p6wHwT
+eth: 0x4C7d8CcE165BF6225D9a54e7788Ae4163AED62c0
+xmr: 49zTsryqJu8d6zbQfuHXcJfpb8wRqBo13EdYyTaRKHNv7YxkQBTS72HAkhEKxkcX5RLogZTYe1vJC9KqqAugD7VqH47beUA
 
 Enjoy!
