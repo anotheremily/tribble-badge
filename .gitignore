@@ -41,3 +41,5 @@ web/web/build/assets/app.css
 web/web/build/assets/*.eot
 web/web/build/assets/*.woff
 web/web/build/assets/*.ttf
+/schematics/gerber_v1.1_fixed_silkscreen.zip
+/schematics/gerber_v1.0_production.zip
