@@ -15,23 +15,22 @@ _* Adjust brightness at your own risk. The max setting will literally sear your 
 The Queercon folks always have camos, and we have some similar patterns. In addition to this, there are a few different color transitions for you to enjoy!
 
 ## Challenge
-I hear there are 4 "black badges" for the taking...
-
-    68 74 74 70 73 3a 2f 2f 74 72 69 62 62 30 31 2e 70 61 72 74 79
+68 74 74 70 73 3a 2f 2f 74 72 69 62 62 30 31 2e 70 61 72 74 79
 
 ## Extra! Please Hack on this Badge!
-All the insides can be repurposed after the conference! In addition to the NeoPixel Jewels on the outside, on the inside you’ll find a Trinket Mini 5V and some other goodies. The Trinket and Jewels are purposefully not soldered onto the board to make it easy to remove and use on your other projects! Of course if you want to leave the badge as is too, that's fine. Or play around with the source and add your own features! (two extra pins on the board are just begging for some love.)
+One of the goals this year was to really lower the barrier to entry for hacking on this badge! In addition to the NeoPixel Jewels on the outside, on the inside you’ll find a Trinket Mini 5V and some other goodies. The Trinket and Jewels are purposefully not soldered onto the board to make it easy to remove and use on your other projects! Of course if you want to leave the badge as is too, that's fine. Or play around with the source and add your own features! (two extra pins on the board are just begging for some love.)
 
 If you want to hack on the hardware or software, these links might be handy.
 
-- Source Code: https://tribb01.party/res/bb01.tar.gz*
+- Source Code: https://tribb01.party/res/bb01.tar.gz
+- Hackaday.io Build Page: https://hackaday.io/project/25878-beyond-binaries-defcon-25-tribb01-badge
 - Trinket Info: https://learn.adafruit.com/introducing-trinket/introduction
 - Neopixel Info: https://learn.adafruit.com/adafruit-neopixel-uberguide
 
 _* triBB01 uses a modified version of the Neopixel library to save space. Not all functionality is present._
 
 ## The End
-Special thanks to Avi for help concepting and to Aaron for support and unknowingly feeding me ideas on the challenge badge.
+Special thanks to Avi for help concepting and to Twinkie for help testing and assembling.
 
 If you want to support the development of this badge and future badges, feel free to contribute.
 
