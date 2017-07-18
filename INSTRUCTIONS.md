@@ -32,7 +32,7 @@ _* triBB01 uses a modified version of the Neopixel library to save space. Not al
 ## The End
 Special thanks to Avi for help concepting and to Twinkie for help testing and assembling.
 
-If you want to support the development of this badge and future badges, feel free to contribute.
+If you want to support the development of this badge and future badges, feel free to contribute. Next year, we'll be scaling up production with a bigger build and a whole lot more badges.
 
 btc: 1HG16kFLoJVEfGiuuKssq8b5Cd61zvGaA2
 eth: 0x4C7d8CcE165BF6225D9a54e7788Ae4163AED62c0
