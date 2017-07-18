@@ -95,11 +95,9 @@
 #define MODE_CROSSFADE_ACROSS 10
 #define MODE_CROSSFADE_DOWN 11
 #define MODE_CHASE_AROUND 12
-// #define MODE_CHASE_ACROSS 13
 #define MODE_CHASE_DOWN 14
 
 // Mode specific constants
-#define SPARK_CHANCE 30  // chance of a spark firing - out of 255
-
+#define SPARK_CHANCE 20  // chance of a spark firing - out of 255
 
 #endif
