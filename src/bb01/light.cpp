@@ -251,6 +251,7 @@ void LightHandler::stepPattern() {
         patterns[this->pattern][this->patternStep]);
 
     storeSetPattern(this->pattern);
+    this->strip->clear();
 }
 
 void LightHandler::stepMode() {
@@ -269,8 +270,7 @@ void LightHandler::stepMode() {
         patterns[this->pattern][this->patternStep]);
 
     storeSetMode(this->mode);
-
-    this->clear();
+    this->strip->clear();
 }
 
 void LightHandler::stepBrightness() {
@@ -279,14 +279,6 @@ void LightHandler::stepBrightness() {
       this->brightness = 0;
     }
     storeSetBrightness(this->brightness);
-}
-
-void LightHandler::clear() {
-    // for (uint8_t p = NUM_PIXELS; p > 0; p -= 1) {
-    //   this->strip->setPixelColor(p, 0, 0, 0, 0);
-    // }
-    this->strip->clear();
-    // this->strip->show();
 }
 
 // void LightHandler::debug() {
@@ -351,5 +343,5 @@ crossfade_t getCrossfadeAmount(color_t current, color_t target) {
 
 uint8_t getCrossfadeChannel(uint8_t current, uint8_t target) {
     // return abs(current - target) / CROSSFADE_STEPS + 1;
-    return (current > target ? current - target : target - current) / CROSSFADE_STEPS + 1;
+    return ((current > target ? current - target : target - current) / CROSSFADE_STEPS + 1); // / (this->brightness / MAX_BRIGHTNESS) + 1;
 }

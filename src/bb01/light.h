@@ -117,8 +117,6 @@ private:
     void stepModeCrossfade(uint8_t);
     void stepModeChase(uint8_t);
     void stepModeSparks();
-
-    void clear();
 };
 
 #endif
