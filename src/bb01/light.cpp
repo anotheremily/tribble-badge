@@ -42,12 +42,12 @@ const color_t yellow       = {255, 120,   0};
 const color_t purple       = {200,  0, 100};
 const color_t light_blue   = { 91, 206, 250};
 const color_t pink         = {255,  40, 60};
-const color_t light_purple = {119,   0, 137};
+// const color_t light_purple = {119,   0, 137};
 
 const color_t color_rgb[]         = {red, green, blue};
 const color_t color_pride[]       = {red, orange, yellow, green, blue, purple};
 const color_t color_trans[]       = {light_blue, pink, white, pink, light_blue};
-const color_t color_genderqueer[] = {light_purple, white, green};
+const color_t color_genderqueer[] = {purple, white, green};  // swap light purple for purple
 const color_t color_genderfluid[] = {pink, white, purple, blue};
 const color_t color_bisexual[]    = {pink, purple, blue};
 const color_t color_pansexual[]   = {pink, yellow, light_blue};
