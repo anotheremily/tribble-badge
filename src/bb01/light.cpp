@@ -32,85 +32,52 @@ const uint8_t col_5[] = {10, 13, 7};
 const uint8_t col_6[] = {9, 8};
 const uint8_t *cols[] = {col_1, col_2, col_3, col_4, col_5, col_6};
 
-const color_t colorOff = {CHANNEL_OFF, CHANNEL_OFF, CHANNEL_OFF};
+const color_t black        = {  0,   0,   0};
+const color_t white        = {255, 255, 255};
+const color_t red          = {255,   0,   0};
+const color_t blue         = {  0,   0, 255};
+const color_t green        = {  0, 255,  0};
+const color_t orange       = {255, 35,   0};
+const color_t yellow       = {255, 120,   0};
+const color_t purple       = {200,  0, 100};
+const color_t light_blue   = { 91, 206, 250};
+const color_t pink         = {255,  40, 60};
+const color_t light_purple = {119,   0, 137};
 
-const color_t color_rgb[] = {
-    {255, 0, 0},
-    {0, 255, 0},
-    {0, 0, 255}
-};
-
-const color_t color_pride[] = {
-    {232, 4, 0},
-    {255, 141, 0},
-    {255, 239, 0},
-    {0, 129, 33},
-    {0, 68, 255},
-    {119, 0, 137}
-};
-
-const color_t color_trans[] = {
-    {91,206,250},
-    {245, 169, 184},
-    {255, 255, 255},
-    {91,206,250},
-    {245, 169, 184}
-};
-
-const color_t color_genderqueer[] = {
-    {201, 138, 255},
-    {255, 255, 255},
-    {80, 150, 85}
-};
-
-const color_t color_bisexual[] = {
-    {219, 0, 110},
-    {154, 63, 161},
-    {58, 61, 168}
-};
-
-const color_t color_pansexual[] = {
-    {255, 0, 193},
-    {255, 244, 0},
-    {110, 186, 255}
-};
-
-const color_t color_nonbinary[] = {
-    {255, 255, 255},
-    {255, 255, 255},
-    {255, 255, 255},
-};
-
-const color_t color_intersex[] = {
-    {255, 255, 255},
-    {255, 255, 255},
-    {255, 255, 255},
-};
-
-const color_t color_asexual[] = {
-    {255, 255, 255},
-    {255, 255, 255},
-    {255, 255, 255},
-};
-
-const color_t color_ally[] = {
-    {255, 255, 255},
-    {255, 255, 255},
-    {255, 255, 255},
-};
+const color_t color_rgb[]         = {red, green, blue};
+const color_t color_pride[]       = {red, orange, yellow, green, blue, purple};
+const color_t color_trans[]       = {light_blue, pink, white, pink, light_blue};
+const color_t color_genderqueer[] = {light_purple, white, green};
+const color_t color_genderfluid[] = {pink, white, purple, blue};
+const color_t color_bisexual[]    = {pink, purple, blue};
+const color_t color_pansexual[]   = {pink, yellow, light_blue};
+const color_t color_nonbinary[]   = {yellow, white, purple};
+const color_t color_intersex[]    = {purple, white, light_blue, pink, white, purple};
+const color_t color_asexual[]     = {white, purple};
 
 const color_t *patterns[] = {
     color_rgb,
     color_pride,
     color_trans,
     color_genderqueer,
+    color_genderfluid,
     color_bisexual,
     color_pansexual,
     color_nonbinary,
     color_intersex,
-    color_asexual,
-    color_ally
+    color_asexual
 };
+
+const uint8_t pattern_length[] = {3,   // rgb
+                                  6,   // pride
+                                  5,   // trans
+                                  3,   // genderqueer
+                                  4,   // genderfluid
+                                  3,   // bisexual
+                                  3,   // pansexual
+                                  3,   // nonbinary
+                                  6,   // intersex
+                                  2};  // asexual
 
 LightHandler::LightHandler() {
     this->strip = new Adafruit_NeoPixel(NUM_PIXELS, LED_PIN, NEO_GRBW + NEO_KHZ800);  // or NEO_GRBW
@@ -118,9 +85,9 @@ LightHandler::LightHandler() {
     // this->strip->setBrightness(BRIGHTNESS);
 
     // restore pattern and mode from eeprom
-    this->brightness = 255; // storeGetBrightness();
-    this->pattern = 0; // storeGetPattern();
-    this->mode = 0; // storeGetMode();
+    this->brightness = storeGetBrightness();
+    this->pattern = storeGetPattern();
+    this->mode = storeGetMode();
 
     this->patternStep = 0;
     this->modeStep = 0;
@@ -155,7 +122,7 @@ void LightHandler::step() {
 void LightHandler::stepModeBlink() {
     // get common color and target goals
     color_t target = (this->modeStep == 1)
-        ? colorOff
+        ? black
         : patterns[this->pattern][this->patternStep];
 
     color_t color = stepColor(
@@ -177,11 +144,11 @@ void LightHandler::stepModeBlink() {
             if (this->modeStep == 0) {
                 // blink fades to black before going to next color
                 this->modeStep = 1;
-                this->crossfadeAmount = getCrossfadeAmount(color, colorOff);
+                this->crossfadeAmount = getCrossfadeAmount(color, black);
             } else {
                 this->modeStep = 0;
                 this->patternStep += 1;
-                if (this->patternStep == sizeof(patterns[this->pattern]) + 1) {
+                if (this->patternStep == pattern_length[this->pattern]) {
                     this->patternStep = 0;
                 }
                 this->crossfadeAmount = getCrossfadeAmount(
@@ -210,7 +177,7 @@ void LightHandler::stepModeCrossfade(uint8_t variant) {
             // otherwise, go to the next step in the pattern
             this->patternHold = 0;
             this->patternStep += 1;
-            if (this->patternStep == sizeof(patterns[this->pattern]) + 1) {
+            if (this->patternStep == pattern_length[this->pattern]) {
                 this->patternStep = 0;
             }
             this->crossfadeAmount = getCrossfadeAmount(
@@ -220,36 +187,36 @@ void LightHandler::stepModeCrossfade(uint8_t variant) {
 }
 
 void LightHandler::stepModeChase(uint8_t variant) {
-    uint8_t *block, *prevBlock;
-
-    // if (variant == MODE_CHASE_ACROSS) {
-        prevBlock = cols[this->modeStep];
-        this->modeStep = this->modeDir == 0 ? this->modeStep + 1 : this->modeStep - 1;
-        if (this->modeStep + 1 == LED_COLS) {
-            this->modeDir = 1;
-        } else if (this->modeStep == 0) {
-            this->modeDir = 0;
-            this->patternStep += 1;
-            if (this->patternStep == sizeof(patterns[this->pattern]) + 1) {
-                this->patternStep = 0;
-            }
-        }
-        block = cols[this->modeStep];
+    // uint8_t *block, *prevBlock;
+    //
+    // // if (variant == MODE_CHASE_ACROSS) {
+    //     prevBlock = cols[this->modeStep];
+    //     this->modeStep = this->modeDir == 0 ? this->modeStep + 1 : this->modeStep - 1;
+    //     if (this->modeStep + 1 == LED_COLS) {
+    //         this->modeDir = 1;
+    //     } else if (this->modeStep == 0) {
+    //         this->modeDir = 0;
+    //         this->patternStep += 1;
+    //         if (this->patternStep == pattern_length[this->pattern]) {
+    //             this->patternStep = 0;
+    //         }
+    //     }
+    //     block = cols[this->modeStep];
+    // // }
+    //
+    // // for (uint8_t i = 0; i < sizeof(prevBlock); i += 1) {
+    // //     this->strip->setPixelColor(prevBlock[i], 0, 0, 0, 0);
+    // // }
+    // for (uint8_t i = 0; i < sizeof(block); i += 1) {
+    //     this->strip->setPixelColor(block[i],
+    //                               patterns[this->pattern][this->patternStep].red,
+    //                               patterns[this->pattern][this->patternStep].green,
+    //                               patterns[this->pattern][this->patternStep].blue,
+    //                               0);
     // }
-
-    // for (uint8_t i = 0; i < sizeof(prevBlock); i += 1) {
-    //     this->strip->setPixelColor(prevBlock[i], 0, 0, 0, 0);
-    // }
-    for (uint8_t i = 0; i < sizeof(block); i += 1) {
-        this->strip->setPixelColor(block[i],
-                                  patterns[this->pattern][this->patternStep].red,
-                                  patterns[this->pattern][this->patternStep].green,
-                                  patterns[this->pattern][this->patternStep].blue,
-                                  0);
-    }
-
-
-    // @TODO implement
+    //
+    //
+    // // @TODO implement
 }
 
 void LightHandler::stepModeSparks() {
@@ -259,7 +226,7 @@ void LightHandler::stepModeSparks() {
         this->modeStep = 0;
     } else {
         if (pseudorand() % 100 < SPARK_CHANCE) {
-            uint8_t idx = pseudorand() % (sizeof(patterns[this->pattern]) + 1);
+            uint8_t idx = pseudorand() % pattern_length[this->pattern];
             this->patternStep = pseudorand() % NUM_PIXELS;
             this->strip->setPixelColor(this->patternStep,
                                       patterns[this->pattern][idx].red,
@@ -283,7 +250,6 @@ void LightHandler::stepPattern() {
         translateColor(this->strip->getPixelColor(0)),
         patterns[this->pattern][this->patternStep]);
 
-    // @TODO uncomment
     storeSetPattern(this->pattern);
 }
 
@@ -302,7 +268,6 @@ void LightHandler::stepMode() {
         translateColor(this->strip->getPixelColor(0)),
         patterns[this->pattern][this->patternStep]);
 
-    // @TODO uncomment
     storeSetMode(this->mode);
 
     this->clear();
@@ -313,7 +278,7 @@ void LightHandler::stepBrightness() {
     if (this->brightness == BRIGHTNESS_SETTINGS) {
       this->brightness = 0;
     }
-    // storeSetBrightness(this->brightness);
+    storeSetBrightness(this->brightness);
 }
 
 void LightHandler::clear() {
@@ -367,14 +332,9 @@ color_t stepColor(color_t current, color_t target, crossfade_t amount) {
 }
 
 uint8_t stepChannel(uint8_t current, uint8_t target, uint8_t amount) {
-    // @TODO remove basics
-    int8_t diff = current - target;
-
-    if (diff > 0) {
-        if (diff > amount) {  // increment up
-            return current + amount;
-        }
-    } else if (-1 * diff < amount) {  // increment down
+    if (current < target && current + amount < target) {  // increment up
+        return current + amount;
+    } else if (current > target && current - amount > target) {  // increment down
         return current - amount;
     }
     return target;
@@ -390,6 +350,6 @@ crossfade_t getCrossfadeAmount(color_t current, color_t target) {
 }
 
 uint8_t getCrossfadeChannel(uint8_t current, uint8_t target) {
-    return abs(current - target) / CROSSFADE_STEPS + 1;
-    // return (current > target ? current - target : target - current) / CROSSFADE_STEPS + 1;
+    // return abs(current - target) / CROSSFADE_STEPS + 1;
+    return (current > target ? current - target : target - current) / CROSSFADE_STEPS + 1;
 }

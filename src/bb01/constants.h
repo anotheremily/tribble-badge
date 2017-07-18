@@ -53,7 +53,7 @@
 #define CROSSFADE_AMOUNT_SLOW 10
 #define CROSSFADE_AMOUNT_FAST 10
 #define CROSSFADE_STEPS 40
-#define CROSSFADE_HOLD 20
+#define CROSSFADE_HOLD 40
 
 #define CHANNEL_ON 255
 #define CHANNEL_OFF 0
@@ -72,24 +72,24 @@
 // Patterns
 #define ACTIVE_PATTERNS 10
 
-#define PATTERN_RGB     0
-#define PATTERN_PRIDE    1
-#define PATTERN_TRANS    2
-#define PATTERN_GENDERQUEER 3
-#define PATTERN_BISEXUAL  4
-#define PATTERN_PANSEXUAL  5
-#define PATTERN_NONBINARY  6
-#define PATTERN_INTERSEX  7
-#define PATTERN_ASEXUAL   8
-#define PATTERN_ALLY    9
+#define PATTERN_RGB          0
+#define PATTERN_PRIDE        1
+#define PATTERN_TRANS        2
+#define PATTERN_GENDERQUEER  3
+#define PATTERN_GENDERFLUID  4
+#define PATTERN_BISEXUAL     5
+#define PATTERN_PANSEXUAL    6
+#define PATTERN_NONBINARY    7
+#define PATTERN_INTERSEX     8
+#define PATTERN_ASEXUAL      9
 
 // Modes
 #define ACTIVE_MODES 3  // 8
 
 #define MODE_CHASE_ACROSS 3
-#define MODE_SPARKS 0
+#define MODE_SPARKS 2
 #define MODE_BLINK 1
-#define MODE_CROSSFADE_ALL 2
+#define MODE_CROSSFADE_ALL 0
 
 // Not implemented yet
 #define MODE_CROSSFADE_ACROSS 10
