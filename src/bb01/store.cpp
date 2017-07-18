@@ -13,25 +13,28 @@ void storeInit(uint8_t badgeId) {
 }
 
 uint8_t storeGetMode() {
-    return EEPROM.read(ADDRESS_MODE);
+    // return EEPROM.read(ADDRESS_MODE);
+    return 0;
 }
 
 void storeSetMode(uint8_t mode) {
-    EEPROM.write(ADDRESS_MODE, mode);
+    // EEPROM.write(ADDRESS_MODE, mode);
 }
 
 uint8_t storeGetPattern() {
-    return EEPROM.read(ADDRESS_PATTERN);
+    // return EEPROM.read(ADDRESS_PATTERN);
+    return 0;
 }
 
 void storeSetPattern(uint8_t pattern) {
-    EEPROM.write(ADDRESS_PATTERN, pattern);
+    // EEPROM.write(ADDRESS_PATTERN, pattern);
 }
 
 uint8_t storeGetBrightness() {
-    return EEPROM.read(ADDRESS_BRIGHTNESS);
+    // return EEPROM.read(ADDRESS_BRIGHTNESS);
+    return 255;
 }
 
 void storeSetBrightness(uint8_t brightness) {
-    EEPROM.write(ADDRESS_BRIGHTNESS, brightness);
+    // EEPROM.write(ADDRESS_BRIGHTNESS, brightness);
 }
