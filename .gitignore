@@ -35,7 +35,8 @@ test.cpp
 secrets.sh
 secrets.py
 
-web/
+web/api
+web/web
 web/web/build/assets/app.js
 web/web/build/assets/app.css
 web/web/build/assets/*.eot
