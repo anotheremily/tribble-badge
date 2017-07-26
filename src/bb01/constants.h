@@ -54,6 +54,7 @@
 #define CROSSFADE_AMOUNT_FAST 10
 #define CROSSFADE_STEPS 40
 #define CROSSFADE_HOLD 40
+#define CHASE_HOLD 1
 
 #define CHANNEL_ON 255
 #define CHANNEL_OFF 0
@@ -86,10 +87,10 @@
 // Modes
 #define ACTIVE_MODES 3  // 8
 
-#define MODE_CHASE_ACROSS 3
+#define MODE_CHASE_ACROSS 0
 #define MODE_SPARKS 2
 #define MODE_BLINK 1
-#define MODE_CROSSFADE_ALL 0
+#define MODE_CROSSFADE_ALL 3
 
 // Not implemented yet
 #define MODE_CROSSFADE_ACROSS 10

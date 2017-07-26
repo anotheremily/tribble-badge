@@ -10,7 +10,7 @@ ButtonHandler *buttons;
 void setup() {
     buttons = new ButtonHandler();
     lights = new LightHandler();
-    // storeInit(0);  // only deploy the first time like this
+    storeInit(0);  // only deploy the first time like this
 }
 
 

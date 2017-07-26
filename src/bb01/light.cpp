@@ -25,7 +25,7 @@ const uint8_t row_5[] = {0, 7};
 const uint8_t *rows[] = {row_1, row_2, row_3, row_4, row_5};
 
 const uint8_t col_1[] = {4, 5};
-const uint8_t col_2[] = {3, 5, 0};
+const uint8_t col_2[] = {3, 6, 0};
 const uint8_t col_3[] = {2, 1};
 const uint8_t col_4[] = {11, 12};
 const uint8_t col_5[] = {10, 13, 7};
@@ -46,13 +46,13 @@ const color_t pink         = {255,  40, 60};
 
 const color_t color_rgb[]         = {red, green, blue};
 const color_t color_pride[]       = {red, orange, yellow, green, blue, purple};
-const color_t color_trans[]       = {light_blue, pink, white, pink, light_blue};
+const color_t color_trans[]       = {light_blue, pink, white, pink};
 const color_t color_genderqueer[] = {purple, white, green};  // swap light purple for purple
 const color_t color_genderfluid[] = {pink, white, purple, blue};
 const color_t color_bisexual[]    = {pink, purple, blue};
 const color_t color_pansexual[]   = {pink, yellow, light_blue};
 const color_t color_nonbinary[]   = {yellow, white, purple};
-const color_t color_intersex[]    = {purple, white, light_blue, pink, white, purple};
+const color_t color_intersex[]    = {purple, white, light_blue, pink, white};
 const color_t color_asexual[]     = {white, purple};
 
 const color_t *patterns[] = {
@@ -70,13 +70,13 @@ const color_t *patterns[] = {
 
 const uint8_t pattern_length[] = {3,   // rgb
                                   6,   // pride
-                                  5,   // trans
+                                  4,   // trans
                                   3,   // genderqueer
                                   4,   // genderfluid
                                   3,   // bisexual
                                   3,   // pansexual
                                   3,   // nonbinary
-                                  6,   // intersex
+                                  5,   // intersex
                                   2};  // asexual
 
 LightHandler::LightHandler() {
@@ -187,36 +187,41 @@ void LightHandler::stepModeCrossfade(uint8_t variant) {
 }
 
 void LightHandler::stepModeChase(uint8_t variant) {
-    // uint8_t *block, *prevBlock;
-    //
-    // // if (variant == MODE_CHASE_ACROSS) {
-    //     prevBlock = cols[this->modeStep];
-    //     this->modeStep = this->modeDir == 0 ? this->modeStep + 1 : this->modeStep - 1;
-    //     if (this->modeStep + 1 == LED_COLS) {
-    //         this->modeDir = 1;
-    //     } else if (this->modeStep == 0) {
-    //         this->modeDir = 0;
-    //         this->patternStep += 1;
-    //         if (this->patternStep == pattern_length[this->pattern]) {
-    //             this->patternStep = 0;
-    //         }
-    //     }
-    //     block = cols[this->modeStep];
-    // // }
-    //
-    // // for (uint8_t i = 0; i < sizeof(prevBlock); i += 1) {
-    // //     this->strip->setPixelColor(prevBlock[i], 0, 0, 0, 0);
-    // // }
-    // for (uint8_t i = 0; i < sizeof(block); i += 1) {
-    //     this->strip->setPixelColor(block[i],
-    //                               patterns[this->pattern][this->patternStep].red,
-    //                               patterns[this->pattern][this->patternStep].green,
-    //                               patterns[this->pattern][this->patternStep].blue,
-    //                               0);
-    // }
-    //
-    //
-    // // @TODO implement
+    uint8_t *block, *prevBlock;
+
+    if (this->patternHold < CHASE_HOLD) {
+        this->patternHold += 1;
+    } else {
+        this->patternHold = 0;
+
+        // if (`variant == MODE_CHASE_ACROSS) {
+        prevBlock = cols[this->modeStep];
+        this->modeStep = this->modeDir == 0 ? this->modeStep + 1 : this->modeStep - 1;
+        if (this->modeStep + 1 == LED_COLS) {
+            this->modeDir = 1;
+        } else if (this->modeStep == 0) {
+            this->modeDir = 0;
+            this->patternStep += 1;
+            if (this->patternStep == pattern_length[this->pattern]) {
+                this->patternStep = 0;
+            }
+        }
+        block = cols[this->modeStep];
+        // }
+
+        for (uint8_t i = 0; i < sizeof(prevBlock); i += 1) {
+            this->strip->setPixelColor(prevBlock[i], 0, 0, 0, 0);
+        }
+        for (uint8_t i = 0; i < sizeof(block); i += 1) {
+            this->strip->setPixelColor(block[i],
+                                      patterns[this->pattern][this->patternStep].red,
+                                      patterns[this->pattern][this->patternStep].green,
+                                      patterns[this->pattern][this->patternStep].blue,
+                                      0);
+        }
+    }
+
+    // @TODO implement
 }
 
 void LightHandler::stepModeSparks() {
