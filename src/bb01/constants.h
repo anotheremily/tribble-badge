@@ -87,10 +87,10 @@
 // Modes
 #define ACTIVE_MODES 3  // 8
 
-#define MODE_CHASE_ACROSS 0
+#define MODE_CHASE_ACROSS 1
 #define MODE_SPARKS 2
-#define MODE_BLINK 1
-#define MODE_CROSSFADE_ALL 3
+#define MODE_BLINK 3
+#define MODE_CROSSFADE_ALL 0
 
 // Not implemented yet
 #define MODE_CROSSFADE_ACROSS 10
