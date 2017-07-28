@@ -17,34 +17,30 @@
 // 2       05          13
 // 3   05      01  12      08
 // 4       00          07
-const uint8_t row_1[] = {3, 10};
-const uint8_t row_2[] = {4, 2, 11, 9};
-const uint8_t row_3[] = {5, 13};
-const uint8_t row_4[] = {5, 1, 12, 8};
-const uint8_t row_5[] = {0, 7};
-const uint8_t *rows[] = {row_1, row_2, row_3, row_4, row_5};
 
-const uint8_t col_1[] = {4, 5};
-const uint8_t col_2[] = {3, 6, 0};
-const uint8_t col_3[] = {2, 1};
-const uint8_t col_4[] = {11, 12};
-const uint8_t col_5[] = {10, 13, 7};
-const uint8_t col_6[] = {9, 8};
+const uint8_t col_6[] = {2, 1};
+const uint8_t col_5[] = {3, 6, 0};
+const uint8_t col_4[] = {4, 5};
+
+const uint8_t col_1[] = {11, 12};
+const uint8_t col_2[] = {10, 13, 7};
+const uint8_t col_3[] = {9, 8};
+
 const uint8_t *cols[] = {col_1, col_2, col_3, col_4, col_5, col_6};
+const uint8_t col_length[] = {2, 3, 2, 2, 3, 2};
 
 const color_t black        = {  0,   0,   0};
-const color_t white        = {255, 255, 255};
-const color_t red          = {255,   0,   0};
-const color_t blue         = {  0,   0, 255};
-const color_t green        = {  0, 255,  0};
-const color_t orange       = {255, 35,   0};
-const color_t yellow       = {255, 120,   0};
-const color_t purple       = {200,  0, 100};
-const color_t light_blue   = { 91, 206, 250};
-const color_t pink         = {255,  40, 60};
+const color_t white        = {127, 127, 127};  // {255, 255, 255};
+const color_t red          = {127,   0,   0};  // {255,   0,   0};
+const color_t blue         = {  0,   0, 127};  // {  0,   0, 255};
+const color_t green        = {  0, 127,   0};  // {  0, 255,  0};
+const color_t orange       = {127,  17,   0};  // {255, 35,   0};
+const color_t yellow       = {127,  60,   0};  // {255, 120,   0};
+const color_t purple       = {100,   0,  50};  // {200,  0, 100};
+const color_t light_blue   = { 45, 103, 125};  // { 91, 206, 250};
+const color_t pink         = {127,  20,  30};  // {255,  40, 60};
 // const color_t light_purple = {119,   0, 137};
 
-const color_t color_rgb[]         = {red, green, blue};
 const color_t color_pride[]       = {red, orange, yellow, green, blue, purple};
 const color_t color_trans[]       = {light_blue, pink, white, pink};
 const color_t color_genderqueer[] = {purple, white, green};  // swap light purple for purple
@@ -56,21 +52,18 @@ const color_t color_intersex[]    = {purple, white, light_blue, pink, white};
 const color_t color_asexual[]     = {white, purple};
 
 const color_t *patterns[] = {
-    color_rgb,
-    color_pride,
     color_trans,
+    color_pride,
     color_genderqueer,
     color_genderfluid,
     color_bisexual,
     color_pansexual,
     color_nonbinary,
     color_intersex,
-    color_asexual
-};
+    color_asexual};
 
-const uint8_t pattern_length[] = {3,   // rgb
+const uint8_t pattern_length[] = {4,   // trans
                                   6,   // pride
-                                  4,   // trans
                                   3,   // genderqueer
                                   4,   // genderfluid
                                   3,   // bisexual
@@ -187,15 +180,18 @@ void LightHandler::stepModeCrossfade(uint8_t variant) {
 }
 
 void LightHandler::stepModeChase(uint8_t variant) {
-    uint8_t *block, *prevBlock;
+    // uint8_t *block, *prevBlock;
 
     if (this->patternHold < CHASE_HOLD) {
         this->patternHold += 1;
     } else {
         this->patternHold = 0;
 
-        // if (`variant == MODE_CHASE_ACROSS) {
-        prevBlock = cols[this->modeStep];
+        for (uint8_t i = 0; i < col_length[this->modeStep]; i += 1) {
+            this->strip->setPixelColor(cols[this->modeStep][i], 0, 0, 0, 0);
+        }
+
+        // prevBlock = cols[this->modeStep];
         this->modeStep = this->modeDir == 0 ? this->modeStep + 1 : this->modeStep - 1;
         if (this->modeStep + 1 == LED_COLS) {
             this->modeDir = 1;
@@ -206,14 +202,12 @@ void LightHandler::stepModeChase(uint8_t variant) {
                 this->patternStep = 0;
             }
         }
-        block = cols[this->modeStep];
+        // block = cols[this->modeStep];
         // }
 
-        for (uint8_t i = 0; i < sizeof(prevBlock); i += 1) {
-            this->strip->setPixelColor(prevBlock[i], 0, 0, 0, 0);
-        }
-        for (uint8_t i = 0; i < sizeof(block); i += 1) {
-            this->strip->setPixelColor(block[i],
+
+        for (uint8_t i = 0; i < col_length[this->modeStep]; i += 1) {
+            this->strip->setPixelColor(cols[this->modeStep][i],
                                       patterns[this->pattern][this->patternStep].red,
                                       patterns[this->pattern][this->patternStep].green,
                                       patterns[this->pattern][this->patternStep].blue,

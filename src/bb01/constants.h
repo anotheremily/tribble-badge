@@ -71,26 +71,25 @@
 #define LED_COLS 6
 
 // Patterns
-#define ACTIVE_PATTERNS 10
+#define ACTIVE_PATTERNS 9
 
-#define PATTERN_RGB          0
+#define PATTERN_TRANS        0
 #define PATTERN_PRIDE        1
-#define PATTERN_TRANS        2
-#define PATTERN_GENDERQUEER  3
-#define PATTERN_GENDERFLUID  4
-#define PATTERN_BISEXUAL     5
-#define PATTERN_PANSEXUAL    6
-#define PATTERN_NONBINARY    7
-#define PATTERN_INTERSEX     8
-#define PATTERN_ASEXUAL      9
+#define PATTERN_GENDERQUEER  2
+#define PATTERN_GENDERFLUID  3
+#define PATTERN_BISEXUAL     4
+#define PATTERN_PANSEXUAL    5
+#define PATTERN_NONBINARY    6
+#define PATTERN_INTERSEX     7
+#define PATTERN_ASEXUAL      8
 
 // Modes
-#define ACTIVE_MODES 3  // 8
+#define ACTIVE_MODES 4  // 8
 
+#define MODE_CROSSFADE_ALL 0
 #define MODE_CHASE_ACROSS 1
 #define MODE_SPARKS 2
 #define MODE_BLINK 3
-#define MODE_CROSSFADE_ALL 0
 
 // Not implemented yet
 #define MODE_CROSSFADE_ACROSS 10
